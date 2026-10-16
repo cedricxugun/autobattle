@@ -51,6 +51,7 @@ var qa_recording := false
 var qa_ticks := 0
 var codex: EvolutionCodex
 var qa_codex := false
+var qa_codex_id:=0
 var qa_battle := false
 var qa_demo := -1
 var qa_sequence := ""
@@ -60,9 +61,10 @@ var initial_demo := -1
 var arrange_demo := false
 var qa_capture_cue := ""
 var qa_capturing := false
+var qa_limit:=0
 
 func _ready() -> void:
-	DisplayServer.window_set_title("万象棋局 · 十人口与传说 0.6 预览")
+	DisplayServer.window_set_title("万象棋局 · 骨骼角色样板 0.7")
 	get_window().title = "万象棋局 · 知识嘉年华"
 	get_window().min_size = Vector2i(1180, 740)
 	var font := SystemFont.new()
@@ -70,8 +72,8 @@ func _ready() -> void:
 	var skin := Theme.new()
 	skin.default_font = font
 	skin.default_font_size = 14
-	var base := box_style(Color("172b35"), Color("45605c"), 5)
-	var hover := box_style(Color("2b454c"), Color("b9ab79"), 5)
+	var base := box_style(Color("1c293b"), Color("4d5d70"), 4)
+	var hover := box_style(Color("2f435b"), Color("b9ab79"), 4)
 	skin.set_stylebox("normal", "Button", base)
 	skin.set_stylebox("hover", "Button", hover)
 	skin.set_stylebox("pressed", "Button", box_style(Color("405a57"), Color("dbc18b"), 5))
@@ -79,7 +81,7 @@ func _ready() -> void:
 	skin.set_color("font_color", "Button", Color("e4e7d8"))
 	skin.set_color("font_color", "Label", Color("dfE6da"))
 	skin.set_color("font_disabled_color", "Button", Color("607c81"))
-	skin.set_stylebox("panel", "PanelContainer", box_style(Color("132630"), Color("3e585b"), 7))
+	skin.set_stylebox("panel", "PanelContainer", box_style(Color("121e2e"), Color("394858"), 5))
 	theme = skin
 	add_child(audio)
 	_build_interface()
@@ -90,6 +92,7 @@ func _ready() -> void:
 	resized.connect(_place_overlays)
 	_place_overlays()
 	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("--capture-ticks="):qa_limit=int(argument.trim_prefix("--capture-ticks="))
 		if argument.begins_with("--capture-cue="):
 			qa_capture_cue = argument.trim_prefix("--capture-cue=")
 		if argument == "--arrange-demo":
@@ -105,6 +108,8 @@ func _ready() -> void:
 		if argument.begins_with("--capture-sequence="):
 			qa_sequence = argument.trim_prefix("--capture-sequence=")
 			DirAccess.make_dir_recursive_absolute(qa_sequence)
+		if argument.begins_with("--capture-codex-id="):
+			qa_codex_id=int(argument.trim_prefix("--capture-codex-id="));qa_codex=true
 		if argument == "--capture-codex":
 			qa_codex = true
 		if argument == "--capture-battle":
@@ -124,6 +129,9 @@ func box_style(fill: Color, border: Color, radius: int) -> StyleBoxFlat:
 	style.border_color = border
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(radius)
+	style.shadow_color=Color(0,0,0,.22)
+	style.shadow_size=4
+	style.shadow_offset=Vector2(0,2)
 	style.content_margin_left = 10
 	style.content_margin_right = 10
 	style.content_margin_top = 7
@@ -162,13 +170,14 @@ func _build_interface() -> void:
 	header.add_theme_constant_override("separation", 15)
 	root.add_child(header)
 	header.add_child(label("万象棋局", 27, Color("e5cd98")))
-	header.add_child(label("终局 · 0.6",11,Color("8ba8a6")))
+	header.add_child(label("美术样板 · 0.7",11,Color("8ba8a6")))
 	round_label = label("联赛连接中", 15)
 	round_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	header.add_child(round_label)
 	health_label = label("生命 100", 20, Color("e3a899"))
 	header.add_child(health_label)
+	header.add_child(button("3D试演",func():menu.hide();_send("preview_hero")))
 	header.add_child(button("图鉴 / 升星", func(): codex.show()))
 	header.add_child(button("玩法 / 公式", func(): help_panel.visible = not help_panel.visible))
 	header.add_child(button("难度 / 新局", func(): menu.visible = true; _build_menu()))
@@ -178,7 +187,7 @@ func _build_interface() -> void:
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	root.add_child(content)
 	var left := PanelContainer.new()
-	left.custom_minimum_size.x = 230
+	left.custom_minimum_size.x = 190
 	content.add_child(left)
 	var left_scroll := ScrollContainer.new()
 	left_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -321,7 +330,7 @@ func _build_interface() -> void:
 	var help_text := RichTextLabel.new()
 	help_text.custom_minimum_size = Vector2(660, 420)
 	help_text.bbcode_enabled = true
-	help_text.text = "[b]操作[/b]\n左键购买商店棋子；右键查看技能。拖拽场上棋子换位，拖回备战席撤下，拖到已有棋子上直接交换。装备可从背包拖给棋子。\n\n[b]升星与外观[/b]\n三个同名同星合成高一星。每星使用独立造型与动作帧。最高三星。\n\n[b]联赛与观战[/b]\n8人参赛，最高10级/10人口上阵，最多35轮。八个棋盘同时独立战斗。你面对来袭镜像，你的镜像也会挑战另一棋手。点击右侧列表切换观战。本人的棋盘失败才扣本人的生命。\n\n[b]野怪与掉落[/b]\n第1、2、3、8、13、18、23、28、33轮为野怪。首轮和精英轮战胜野怪后可从三件遗物中选一件。\n\n[b]卡池[/b]\n1至5费各角色共有35/30/25/18/12张。商店占用库存，刷新、出售和淘汰归还；二星占3张、三星占9张。5级开始出现4费，7级开始出现5费；7/8/9/10级传说概率为1%/6%/15%/25%。每系9角色包含2张普通、2张精良、2张稀有、2张史诗、1张传说。\n\n[b]伤害[/b]\n基础双抗=18+费用×3+羁绊+装备；5费英雄额外+12。实际伤害=面板伤害×增伤×100/(100+有效抗性)×减伤；护盾先吸收，剩余扣血。普攻走护甲，默认技能走法抗。100伤害打50抗性约造成66.7伤害。\n\n[b]经济[/b]\n每轮8基础金币，胜利额外3、失败额外1，每10存款+1利息，上限5。每轮+2经验，4金币研习+4经验。"
+	help_text.text = "[b]操作[/b]\n左键购买商店棋子；右键查看技能。拖拽场上棋子换位，拖回备战席撤下，拖到已有棋子上直接交换。装备可从背包拖给棋子。\n\n[b]升星与外观[/b]\n三个同名同星合成高一星。升星增强属性并改变外观，最高三星。\n\n[b]联赛与观战[/b]\n8人参赛，最高10级/10人口上阵，最多35轮。八个棋盘同时独立战斗。你面对来袭镜像，你的镜像也会挑战另一棋手。点击右侧列表切换观战。本人的棋盘失败才扣本人的生命。\n\n[b]野怪与掉落[/b]\n第1、2、3、8、13、18、23、28、33轮为野怪。首轮和精英轮战胜野怪后可从三件遗物中选一件。\n\n[b]卡池[/b]\n1至5费各角色共有35/30/25/18/12张。商店占用库存，刷新、出售和淘汰归还；二星占3张、三星占9张。5级开始出现4费，7级开始出现5费；7/8/9/10级传说概率为1%/6%/15%/25%。每系9角色包含2张普通、2张精良、2张稀有、2张史诗、1张传说。\n\n[b]伤害[/b]\n基础双抗=18+费用×3+羁绊+装备；5费英雄额外+12。实际伤害=面板伤害×增伤×100/(100+有效抗性)×减伤；护盾先吸收，剩余扣血。普攻走护甲，默认技能走法抗。100伤害打50抗性约造成66.7伤害。\n\n[b]经济[/b]\n每轮8基础金币，胜利额外3、失败额外1，每10存款+1利息，上限5。每轮+2经验，4金币研习+4经验。"
 	help_box.add_child(help_text)
 	help_box.add_child(button("返回棋局", func(): help_panel.hide()))
 	toast = label("", 16, Color("f0d89d"))
@@ -390,7 +399,7 @@ func _on_state(value: Dictionary) -> void:
 		_build_menu()
 		if initial_demo != -1:
 			menu.hide()
-			_send("preview_battle" if initial_demo<0 else "preview_skill", {"id":initial_demo})
+			_send("preview_hero" if initial_demo==-3 else "preview_battle" if initial_demo<0 else "preview_skill", {"id":initial_demo})
 		elif arrange_demo:
 			menu.hide()
 			_send("new", {"difficulty":"easy"})
@@ -462,7 +471,7 @@ func _trait_text(id: String, tier: int) -> String:
 func _wrapped(text: String, color: Color, font_size: int = 11) -> Label:
 	var node := label(text,font_size,color)
 	node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	node.custom_minimum_size.x = 190
+	node.custom_minimum_size.x = 150
 	return node
 
 func _refresh_traits() -> void:
@@ -480,7 +489,7 @@ func _refresh_traits() -> void:
 		if e.tier>0:
 			total_active += 1
 	entries.sort_custom(func(a,b): return a.tier>b.tier if a.tier!=b.tier else a.count>b.count)
-	faction_box.add_child(label("已激活羁绊 · %d" % total_active,17,Color("dec58e")))
+	faction_box.add_child(label("羁绊 · %d 已激活" % total_active,15,Color("dec58e")))
 	faction_box.add_child(_wrapped("只计算上阵的不同角色；同名棋子不重复计数。",Color("8faeae"),10))
 	if total_active==0:
 		faction_box.add_child(_wrapped("尚未激活。上阵2种同学科或同职业角色可触发首档。",Color("c5d4c9")))
@@ -497,10 +506,10 @@ func _refresh_traits() -> void:
 		for threshold in [2,4,6]:
 			stages.append(("✓" if e.count>=threshold else "·")+str(threshold))
 		v.add_child(label("  ".join(stages),11,Color("e6cf96") if e.tier>0 else Color("8fa7aa")))
-		v.add_child(_wrapped(_trait_text(e.id,e.tier) if e.tier>0 else "未激活："+_trait_text(e.id,1),e.color if e.tier>0 else Color("91a7a8")))
+		if e.tier>0:v.add_child(_wrapped(_trait_text(e.id,e.tier),e.color))
 		if e.tier<3:
 			v.add_child(label("再上阵%d种 → %d档" % [(e.tier+1)*2-e.count,(e.tier+1)*2],10,Color("a4b5ac")))
-		panel.tooltip_text = e.desc
+		panel.tooltip_text = e.desc+"\n"+_trait_text(e.id,maxi(1,e.tier))
 	var has_dragon: bool = state.ownUnits.any(func(u): return int(u.id)==8 and u.c!=null)
 	if int(state.traits.get("law",0))>=2:
 		faction_box.add_child(label("法律羁绊 · 举证条件",13,Color("e8cf80")))
@@ -514,9 +523,9 @@ func _refresh_traits() -> void:
 		faction_box.add_child(rule)
 	if has_dragon:
 		faction_box.add_child(label("公理之龙 · 技能模式",13,Color("72d8db")))
-		faction_box.add_child(_wrapped("只影响公理之龙施法：为全体数学角色选择一种效果。",Color("b4c9c4")))
+		faction_box.add_child(_wrapped("只影响公理之龙施法：为全体友军选择一种效果。",Color("b4c9c4")))
 		var axiom := OptionButton.new()
-		for text in ["护盾：获得180基础护盾","成长：6秒内施法强化","净化：清除负面并治疗"]:
+		for text in ["护盾：获得220基础护盾","成长：6秒内施法强化","净化：清除负面并治疗"]:
 			axiom.add_item(text)
 		axiom.select(["shield","growth","heal"].find(state.axiom))
 		axiom.disabled = state.phase!="prepare"
@@ -608,7 +617,7 @@ func _show_detail(d: Dictionary) -> void:
 	description.custom_minimum_size.x = 305
 	popup_box.add_child(description)
 	if int(d.id) < 54:
-		popup_box.add_child(button("查看三种星级外观与动作", func(): codex.show_character(int(d.id)); codex.show(); popup.hide(); _send("close_inspect")))
+		popup_box.add_child(button("查看升星外观 / 技能演示", func(): codex.show_character(int(d.id)); codex.show(); popup.hide(); _send("close_inspect")))
 		popup_box.add_child(label("卡池剩余：%d 张" % int(d.pool), 11, Color("96b9b3")))
 	if d.get("uid") != null and d.player == "you":
 		var actions := HBoxContainer.new()
@@ -734,13 +743,13 @@ func _process(delta: float) -> void:
 			board.stage._set_camera()
 			_send("refresh")
 			if qa_demo != -1:
-				_send("preview_battle" if qa_demo<0 else "preview_skill", {"id":qa_demo})
+				_send("preview_hero" if qa_demo==-3 else "preview_battle" if qa_demo<0 else "preview_skill", {"id":qa_demo})
 			elif qa_battle:
 				_send("start")
 		elif qa_ticks == 90 and qa_codex:
-			codex.show_character(0)
+			codex.show_character(qa_codex_id)
 			codex.show()
-		elif (qa_capture_cue.is_empty() and qa_ticks == (300 if qa_battle else 120)) or (not qa_capture_cue.is_empty() and qa_ticks>50 and state.board.effects.any(func(e): return e.type==qa_capture_cue and float(state.board.time)-float(e.born)>float(e.life)*0.45)) or qa_ticks==600:
+		elif (qa_capture_cue.is_empty() and qa_ticks == (qa_limit if qa_limit>0 else 300 if qa_battle else 120)) or (not qa_capture_cue.is_empty() and qa_ticks>50 and state.board.effects.any(func(e): return e.type==qa_capture_cue and float(state.board.time)-float(e.born)>float(e.life)*0.45)) or qa_ticks==maxi(600,qa_limit):
 			qa_capturing = true
 			toast.hide()
 			await RenderingServer.frame_post_draw
@@ -754,7 +763,7 @@ func _process(delta: float) -> void:
 				var recording:=FileAccess.open(qa_sequence.path_join("frames.json"),FileAccess.WRITE)
 				recording.store_string(JSON.stringify(qa_sequence_frames))
 			get_tree().quit()
-		if not qa_sequence.is_empty() and qa_ticks >= 60 and qa_ticks < 300 and qa_ticks % 2 == 0 and not qa_recording:
+		if not qa_sequence.is_empty() and qa_ticks >= 60 and qa_ticks < (qa_limit if qa_limit>0 else 300) and qa_ticks % 2 == 0 and not qa_recording:
 			qa_recording=true
 			var frame_name:="frame-%03d.jpg"%qa_sequence_frames.size()
 			await RenderingServer.frame_post_draw

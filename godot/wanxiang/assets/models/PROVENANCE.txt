@@ -19,3 +19,19 @@ Battle Presentation 0.5 additions
 magnet-car: original concept ../concepts/magnet-car-v1.png, Tripo Studio H3.1 image-to-model 5b153edf-e7fb-4b42-a4f2-17778d389e60, 55 credits. Game mesh 172302 triangles / 9155228 bytes.
 verdict-gavel: original concept ../concepts/verdict-gavel-v1.png, Tripo Studio H3.1 image-to-model 820f3bb6-f4e8-4fed-a596-5b3027a8de22, 55 credits. Game mesh 193698 triangles / 10099052 bytes.
 Total website generation: 110 credits this update. No API generation. Local mesh simplification preserves original textures.
+
+2026-10-16 — verdict-colossus-v2.glb
+Original built-in generated reference: assets/concepts/verdict-colossus-v2.png
+Prompt: godot/hero-art-v2-prompt.txt
+Tripo WEB ONLY, H3.1 generation task 9079ed11-d1ca-4119-9e6e-8f43086f62e4 (55 website credits).
+Website smart triangle retopology requested 15000, actual 13811 triangles (35 credits); Mixamo biped rig (20 credits), 65 bones.
+Website presets: idle, walk, box_01, cast_a_spell, hit_to_body_01, fall. Exported GLB with all six in-place animations and 2K textures.
+Downloaded source: Downloads/verdict-colossus-complete.glb, 11629652 bytes. Initial idle-only download preserved separately in Downloads.
+Observed website balance 2690 -> 2580 for the completed character workflow; preset animation and export incurred no additional observed debit.
+Portraits rendered directly from this mesh in Godot with transparent background, not generated stand-ins for a finished 3D character.
+
+Academy Ginkgo: original built-in concept assets/concepts/academy-ginkgo-v1.png; prompt godot/garden-v1-prompt.txt.
+Tripo Studio WEB H3.1 image-to-model 5581e930-53d4-4dfa-98e2-ab2f0f876888, 55 credits; balance 2580 -> 2525.
+Downloaded 1909860-triangle source preserved in Downloads/academy-ginkgo-v1.glb (59857148 bytes).
+Local glTF Transform 4.5.1 simplify ratio .025 error .004, textures preserved. Runtime asset 90004 triangles / 5798324 bytes.
+Total website credits for the 0.7 character and scenery workflow: 165. No Tripo API generation used.

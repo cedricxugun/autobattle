@@ -12,7 +12,8 @@ func _draw() -> void:
 		var u:Dictionary=actor.unit
 		if not u.get("alive",true):continue
 		var name: String = "先民护卫" if u.get("kind")=="ancestor" else ArtLibrary.character(int(u.id)).name
-		var point:=board.stage.camera.unproject_position(actor.global_position+Vector3(0,1.47*actor.scale.y,0))
+		var height:float=1.80*(1+(int(u.star)-1)*.065) if actor.hero!=null else 1.47
+		var point:=board.stage.camera.unproject_position(actor.global_position+Vector3(0,height*actor.scale.y,0))
 		var foot:=board.stage.camera.unproject_position(actor.global_position)
 		var color:=Color("a9dbc6") if int(u.team)==0 else Color("e2a295")
 		var title:=name+" "+"★".repeat(int(u.star)) if u.get("bench",false) else name

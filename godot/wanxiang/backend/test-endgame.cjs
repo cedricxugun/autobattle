@@ -34,3 +34,13 @@ for(const id of [8,17,26,35,44,53]){
  if(id===53){const court=b.zones.find(z=>z.type==='court');assert(court.enemyOnly);a.x=court.x;a.y=court.y;b.cast(a);advance(b,.4);assert(!b.has(a,'silence'));const before=e.hp;b.cast(e);advance(b,.4);assert(b.has(e,'silence'));assert(e.hp<before);assert.equal(e.cast,null);}
 }
 console.log('PASS: 10-population cap and replacement; complete rarity tiers; six legendary releases, pre-release interruption, rewind, reactor, one resurrection, book cleanse, enemy-only interrupting court');
+for(const mode of ['growth','heal']){
+ const battle=arena(8),hero=battle.find('hero'),ally=battle.find('ally');battle.options.axiom=mode;
+ ally.hp=5000;battle.buff(ally,'root',4);battle.cast(hero);advance(battle,1.5);
+ if(mode==='growth')assert(battle.has(ally,'skillUp'),'UI growth option maps to team skill buff');
+ else {assert(ally.hp>5000);assert(!battle.has(ally,'root'),'UI heal option maps to cleanse');}
+}
+const artPreview=new Session(),saved=JSON.stringify(artPreview.game);artPreview.command('preview_hero');
+assert.equal(artPreview.demoBattle.units.length,6);assert(artPreview.demoBattle.units.every(u=>u.id===51));
+artPreview.tick(.5);artPreview.command('replay_preview');assert.equal(artPreview.demoBattle.t,0);artPreview.command('close_preview');assert.equal(JSON.stringify(artPreview.game),saved);
+console.log('PASS: public strategy options and isolated 3D star preview');

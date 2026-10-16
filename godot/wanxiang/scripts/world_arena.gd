@@ -48,18 +48,38 @@ func _ready() -> void:
 	var sky := Environment.new()
 	sky.background_mode = Environment.BG_COLOR
 	sky.background_color = Color("101c34")
-	sky.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	sky.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
+	var studio_sky:=Sky.new()
+	var atmosphere:=ProceduralSkyMaterial.new()
+	atmosphere.sky_top_color=Color("7196b5")
+	atmosphere.sky_horizon_color=Color("c8d1d1")
+	atmosphere.ground_bottom_color=Color("273d54")
+	atmosphere.ground_horizon_color=Color("a2b3bc")
+	studio_sky.sky_material=atmosphere
+	sky.sky=studio_sky
+	sky.reflected_light_source=Environment.REFLECTION_SOURCE_SKY
 	sky.ambient_light_color = Color("9cb6d4")
-	sky.ambient_light_energy = 0.55
-	sky.tonemap_mode = Environment.TONE_MAPPER_LINEAR
+	sky.ambient_light_energy = 0.45
+	sky.tonemap_mode = Environment.TONE_MAPPER_LINEAR if RenderingServer.get_current_rendering_method()=="gl_compatibility" else Environment.TONE_MAPPER_ACES
+	sky.ssao_enabled=true
+	sky.ssao_radius=.65
+	sky.ssao_intensity=1.5
+	sky.glow_enabled=true
+	sky.glow_intensity=.25
+	sky.glow_bloom=.03
 	environment.environment = sky
 	world.add_child(environment)
 	var sun := DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-54,-35,0)
+	sun.rotation_degrees = Vector3(-58,-28,0)
 	sun.light_color = Color("ffe4bc")
-	sun.light_energy = 0.62
+	sun.light_energy = 0.85
 	sun.shadow_enabled = true
 	world.add_child(sun)
+	var fill:=DirectionalLight3D.new()
+	fill.rotation_degrees=Vector3(-25,145,0)
+	fill.light_color=Color("9bc9e1")
+	fill.light_energy=.18
+	world.add_child(fill)
 	var noise:=FastNoiseLite.new()
 	noise.frequency=0.018
 	noise.fractal_octaves=4
@@ -158,21 +178,29 @@ func _stone(tint: Color) -> ShaderMaterial:
 	return mat
 
 func _build_courtyard() -> void:
-	var stone:=_stone(Color("899ba1"))
-	var paving:=_stone(Color("9aabad"))
-	var coping:=_stone(Color("c6c3b3"))
+	var stone:=_stone(Color("425564"))
+	var paving:=_stone(Color("63798a"))
+	paving.set_shader_parameter("battle_tile",true)
+	paving.set_shader_parameter("tile_texture",ArtLibrary.texture_at("res://assets/academy-slab-v2.png"))
+	var alternate:=_stone(Color("6c8291"))
+	alternate.set_shader_parameter("battle_tile",true)
+	alternate.set_shader_parameter("tile_texture",ArtLibrary.texture_at("res://assets/academy-slab-v2.png"))
+	var coping:=_stone(Color("c9c1a7"))
 	var brass:=material(Color("9c8255"),0.35)
 	# One physical courtyard: battle tiles and surrounding walks meet at the
 	# same elevation and sample the same world-space stone material.
-	box(Vector3(0,-0.29,0.5),Vector3(14.4,0.90,14.0),stone)
+	box(Vector3(0,-0.29,0.5),Vector3(12.8,0.90,13.2),stone)
 	for r in 8:
 		for c in 6:
-			var tile:=box(Vector3(c-2.5,0.17,r-3.5),Vector3(0.982,0.02,0.982),paving)
+			var tile:=box(Vector3(c-2.5,0.17,r-3.5),Vector3(0.982,0.02,0.982),paving if (r+c)%2==0 else alternate)
 			tiles.append(tile)
+			var tile_top:=PlaneMesh.new()
+			tile_top.size=Vector2(.974,.974)
+			mesh_node(tile_top,Vector3(c-2.5,.183,r-3.5),paving if (r+c)%2==0 else alternate)
 	# The low perimeter belongs to the island, not to a framed board panel.
 	for side in [-1,1]:
 		for z in range(-6,7):
-			box(Vector3(side*7.05,0.22,z+0.5),Vector3(0.34,0.30,0.97),coping)
+			box(Vector3(side*6.25,0.22,z+0.5),Vector3(0.34,0.30,0.97),coping)
 	for x in range(-6,7):
 		box(Vector3(x,0.28,-6.32),Vector3(0.97,0.34,0.36),coping)
 	for step in 3:
@@ -183,8 +211,10 @@ func _build_courtyard() -> void:
 	water_mat.shader=preload("res://shaders/courtyard_water.gdshader")
 	mesh_node(water_plane,Vector3(0,-0.82,0),water_mat)
 	world.add_child(architecture)
-	_add_building("observatory",Vector3(-5.1,0.17,-1.55),3.4,12)
-	_add_building("storybook-pavilion",Vector3(5.1,0.17,-2.0),3.4,-12)
+	_add_building("observatory",Vector3(-4.9,0.17,-3.0),2.65,8)
+	_add_building("storybook-pavilion",Vector3(4.9,0.17,-3.25),2.65,-8)
+	_add_building("academy-ginkgo",Vector3(-4.7,.18,2.6),1.9,25)
+	_add_building("academy-ginkgo",Vector3(4.7,.18,1.9),2.0,-20)
 	var court_ring:=TorusMesh.new()
 	court_ring.inner_radius=4.66
 	court_ring.outer_radius=4.68
@@ -193,7 +223,8 @@ func _build_courtyard() -> void:
 	mesh_node(court_ring,Vector3(0,0.16,0),brass)
 	if FileAccess.file_exists("res://assets/models/academic-orrery.glb"):
 		showpiece=load("res://scripts/scenery_model.gd").new()
-		showpiece.position=Vector3(-4.6,0.18,2.6)
+		showpiece.position=Vector3(-4.8,0.18,-.25)
+		showpiece.scale=Vector3.ONE*.72
 		showpiece.rotation_degrees.y=22
 		world.add_child(showpiece)
 	# Bench sockets are embedded in the same courtyard apron.

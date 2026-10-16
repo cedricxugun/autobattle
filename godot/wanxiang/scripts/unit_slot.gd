@@ -13,34 +13,38 @@ var title_label := Label.new()
 var sub_label := Label.new()
 var quality_label := Label.new()
 var reveal_age := 0.0
+var skill_label:=Label.new()
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 1)
-	add_child(vbox)
-	quality_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	quality_label.add_theme_font_size_override("font_size",11)
-	quality_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	vbox.add_child(quality_label)
-	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	picture.custom_minimum_size = Vector2(60, 62 if mode == "shop" else 44)
-	picture.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.add_child(picture)
-	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_label.add_theme_font_size_override("font_size", 14 if mode == "shop" else 11)
-	title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.add_child(title_label)
-	sub_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	sub_label.add_theme_font_size_override("font_size", 10)
-	sub_label.modulate = Color("acc4bd")
-	sub_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.add_child(sub_label)
-	sub_label.visible = mode == "shop"
-	for c in [vbox, title_label, sub_label]:
-		c.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var outer:BoxContainer=HBoxContainer.new() if mode=="shop" else VBoxContainer.new()
+	outer.add_theme_constant_override("separation",8)
+	add_child(outer)
+	picture.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+	picture.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	picture.custom_minimum_size=Vector2(78,100) if mode=="shop" else Vector2(60,44)
+	picture.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	picture.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	outer.add_child(picture)
+	var text_box:=VBoxContainer.new()
+	text_box.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	text_box.alignment=BoxContainer.ALIGNMENT_CENTER
+	text_box.add_theme_constant_override("separation",4)
+	outer.add_child(text_box)
+	for entry in [quality_label,title_label,sub_label,skill_label]:
+		entry.mouse_filter=Control.MOUSE_FILTER_IGNORE
+		entry.horizontal_alignment=HORIZONTAL_ALIGNMENT_LEFT if mode=="shop" else HORIZONTAL_ALIGNMENT_CENTER
+		entry.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+		text_box.add_child(entry)
+	quality_label.add_theme_font_size_override("font_size",10)
+	title_label.add_theme_font_size_override("font_size",14 if mode=="shop" else 11)
+	sub_label.add_theme_font_size_override("font_size",10)
+	sub_label.modulate=Color("95adbd")
+	sub_label.visible=mode=="shop"
+	skill_label.add_theme_font_size_override("font_size",11)
+	skill_label.modulate=Color("c6c4b4")
+	skill_label.visible=mode=="shop"
+	for c in [outer,text_box]:c.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	refresh()
 
 func refresh() -> void:
@@ -56,6 +60,7 @@ func refresh() -> void:
 		return
 	if info.is_empty() or info.get("sold", false):
 		quality_label.text=""
+		skill_label.text=""
 		picture.texture = null
 		title_label.text = "已招募" if mode == "shop" else "空位"
 		sub_label.text = ""
@@ -64,10 +69,12 @@ func refresh() -> void:
 	var d := ArtLibrary.character(id)
 	var quality:=ArtLibrary.quality_color(int(d.cost))
 	var frame:=StyleBoxFlat.new()
-	frame.bg_color=Color("182630").lerp(quality,0.09 if int(d.cost)<5 else 0.20)
+	frame.bg_color=Color("152337").lerp(quality,0.09 if int(d.cost)<5 else 0.20)
 	frame.border_color=quality
 	frame.set_border_width_all(1 if int(d.cost)<4 else 2)
-	frame.border_width_top=3 if int(d.cost)<5 else 5
+	frame.border_width_top=2 if int(d.cost)<5 else 4
+	frame.content_margin_left=7
+	frame.content_margin_right=7
 	frame.set_corner_radius_all(6)
 	frame.content_margin_top=4
 	frame.content_margin_bottom=4
@@ -76,7 +83,8 @@ func refresh() -> void:
 	quality_label.modulate=quality
 	title_label.modulate=quality
 	picture.texture = ArtLibrary.actor_frame(id, int(info.get("star", 1)))
-	title_label.text = str(d.name) + (" · %d" % int(d.cost) if mode == "shop" else " " + "★".repeat(int(info.get("star", 1))))
+	title_label.text = str(d.name) + ("" if mode == "shop" else " " + "★".repeat(int(info.get("star", 1))))
+	skill_label.text=str(d.skill)
 	var school_name := str(d.faction)
 	for f in ArtLibrary.data().factions:
 		if f.id == d.faction:

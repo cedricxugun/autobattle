@@ -20,7 +20,7 @@ module.exports=function({Battle}){
    const friends=()=>this.friends(u.team),foes=()=>this.foes(u);
    if(u.id===8){
     for(const v of this.near(center,foes(),2.6)){D(v,360);this.control(v,'root',1.6,u.uid)}
-    const mode=this.options.axiom||'shield';
+    const mode=({growth:'grow',heal:'cleanse'})[this.options.axiom]||this.options.axiom||'shield';
     for(const v of friends()){
      if(mode==='cleanse'){this.cleanse(v);H(v,220)}
      else if(mode==='grow')this.buff(v,'skillUp',6,.35);

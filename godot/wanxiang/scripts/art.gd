@@ -54,6 +54,12 @@ static func actor_frame(id: int, star: int = 1, frame: int = 0) -> AtlasTexture:
 	var key := "%s:%s:%s" % [id, star, frame]
 	if frame_cache.has(key):
 		return frame_cache[key]
+	if id==51 and FileAccess.file_exists("res://assets/portraits/verdict-v2-star%d.png"%clampi(star,1,3)):
+		var portrait:=AtlasTexture.new()
+		portrait.atlas=texture_at("res://assets/portraits/verdict-v2-star%d.png"%clampi(star,1,3))
+		portrait.region=Rect2(Vector2.ZERO,portrait.atlas.get_size())
+		frame_cache[key]=portrait
+		return portrait
 	var path := "res://assets/characters/%03d.png" % id
 	var revised := "res://assets/characters/%03d-v2.png" % id
 	if FileAccess.file_exists(revised):

@@ -12,6 +12,7 @@ var initialized := false
 var ring: MeshInstance3D
 var contact_shadow: MeshInstance3D
 var placement_age := 1.0
+var hero:Node3D
 
 func _ready() -> void:
 	add_child(hidden_canvas)
@@ -58,6 +59,9 @@ func _ready() -> void:
 func update_unit(value: Dictionary, destination: Vector3) -> void:
 	var old := target_position
 	unit=value
+	if int(value.id)==51 and hero==null and FileAccess.file_exists("res://assets/models/verdict-colossus-v2.glb"):
+		hero=load("res://scripts/hero_actor.gd").new()
+		add_child(hero)
 	target_position=destination
 	if not initialized or arena.board.snapshot.get("phase")=="prepare":
 		if initialized and old.distance_to(destination)>0.1:placement_age=0.0
@@ -67,6 +71,11 @@ func update_unit(value: Dictionary, destination: Vector3) -> void:
 		force_update_transform()
 		collision.force_update_transform()
 	collision.set_meta("uid",str(value.uid))
+	if hero!=null:
+		var hit_shape:CollisionShape3D=collision.get_child(0)
+		var height:float=1.8*(1+(int(value.star)-1)*.065)
+		hit_shape.shape.height=height
+		hit_shape.position.y=height*.5
 	var shown := value.duplicate(true)
 	var aim_world:=Vector3(float(value.get("aimX",value.x))-2.5,0.18,float(value.get("aimY",value.y))-3.5)
 	var aim_screen:=arena.camera.unproject_position(aim_world)-arena.camera.unproject_position(destination)
@@ -84,6 +93,8 @@ func update_unit(value: Dictionary, destination: Vector3) -> void:
 
 func _process(delta: float) -> void:
 	if arena.board.effects_layer==null:return
+	var active_combat:bool=arena.board.snapshot.get("phase")=="battle" and not arena.board.snapshot.get("board",{}).get("done",false)
+	var bookbound:bool=active_combat and "bookbound" in unit.get("buffs",[])
 	body.visual_clock=arena.board.effects_layer.clock
 	body.time_scale=0 if arena.board.snapshot.get("paused",false) else float(arena.board.snapshot.get("speed",1))
 	body.selected=str(unit.get("uid",""))==arena.board.selected_uid
@@ -109,7 +120,7 @@ func _process(delta: float) -> void:
 	var lift:=maxf(0,picture.position.y-0.71)+maxf(0,-body.sprite.position.y-5)*0.011
 	contact_shadow.scale=Vector3.ONE*(1.0+lift*0.5)
 	contact_shadow.material_override.set_shader_parameter("opacity",clampf(0.48-lift*0.25,0.20,0.48))
-	if "bookbound" in unit.get("buffs",[]):
+	if bookbound:
 		picture.texture=ArtLibrary.prop("book")
 		picture.pixel_size=0.95/maxf(picture.texture.get_width(),picture.texture.get_height())
 		picture.scale=Vector3.ONE
@@ -126,3 +137,14 @@ func _process(delta: float) -> void:
 	if body.upgrade_age<0.85:
 		ring.scale=Vector3.ONE*(1+body.upgrade_age)
 	else:ring.scale=Vector3.ONE
+
+	if hero!=null and hero.ready_model and bookbound:
+		hero.visible=false
+	elif hero!=null and hero.ready_model:
+		picture.visible=false
+		accessory.visible=false
+		var shown:Dictionary=unit
+		if not active_combat:
+			shown=unit.duplicate()
+			shown.merge({"moving":false,"casting":false,"attackWindupAt":-99,"skillWindupAt":-99,"hitAt":-99,"buffs":[]},true)
+		hero.drive(shown,body.visual_clock,delta*float(arena.board.snapshot.get("speed",1)),bool(arena.board.snapshot.get("paused",false)),body.dragging,float(arena.board.snapshot.get("speed",1)))
