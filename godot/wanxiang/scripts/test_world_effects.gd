@@ -38,6 +38,17 @@ func run() -> void:
 	packet.matchKey="other-board";packet.board.time=0;packet.board.effects=[]
 	board.update_state(packet);fx._process(0)
 	check(fx.live.is_empty(),"switching boards clears visual state")
+	for code in [8,17,26,35,44,53]:
+		packet.matchKey="legend-"+str(code);packet.paused=true;packet.phase="battle";packet.board.done=false;packet.board.time=.5
+		packet.board.effects=[{"id":code,"type":"legendary_release","legend":code,"sourceUid":"caster","targetUid":"victim","born":0.0,"life":1.8,"ttl":1.3,"x":2,"y":5,"x2":4,"y2":1,"r":2.8 if code==17 else 2.6,"faction":"literature" if code==44 else "math"}]
+		board.update_state(packet);fx._process(0)
+		check(fx.live.has(code),"legendary world effect "+str(code))
+		if fx.live.has(code):
+			check(fx.live[code].position.is_equal_approx(Vector3(1.5,.21,-2.5)),"legendary locks to real target cell "+str(code))
+			check(is_equal_approx(fx.live[code].radius,2.8 if code==17 else 2.6),"visual radius equals simulation "+str(code))
+		packet.paused=false;packet.phase="result";packet.board.done=true
+		board.update_state(packet);board.effects_layer._process(2.5);fx._process(2.5)
+		check(fx.live.is_empty(),"legendary expires "+str(code))
 	board.queue_free()
 	await process_frame
 	quit(1 if failed else 0)

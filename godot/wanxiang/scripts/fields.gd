@@ -101,7 +101,7 @@ func _draw() -> void:
 			for i in 8:
 				var at:=center+Vector2.from_angle(i*TAU/8)*radius
 				line(PackedVector2Array([at-Vector2(0,4),at-Vector2(0,17)]),color,alpha,2)
-			caption="法庭 · 二次施法触发沉默" if z.type == "court" else "边界 · 首次越界禁足"
+			caption="终审领域 · 敌方施法后裁决" if z.type == "court" else "边界 · 首次越界禁足"
 		elif z.type == "vortex":
 			caption="引力井 · 向心牵引"
 			draw_arc(center,radius,0,TAU,80,Color(color,alpha*0.55),1.0,true)
@@ -111,8 +111,8 @@ func _draw() -> void:
 				var direction:=Vector2.from_angle(angle)
 				var at:=center+direction*r
 				line(PackedVector2Array([at+direction.rotated(0.5)*7,at,at+direction.rotated(-0.5)*7]),color,alpha*0.65,1)
-		elif z.type == "acid":
-			caption="酸蚀区域 · 持续伤害"
+		elif z.type in ["acid","reactor"]:
+			caption="反应堆 · 百分比伤害与连锁反应" if z.type=="reactor" else "酸蚀区域 · 持续伤害"
 			draw_arc(center,radius,0,TAU,80,Color(color,alpha*0.55),1.0,true)
 			for i in 12:
 				var angle: float =i*2.399

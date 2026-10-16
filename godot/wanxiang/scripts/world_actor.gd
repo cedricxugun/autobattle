@@ -77,7 +77,9 @@ func update_unit(value: Dictionary, destination: Vector3) -> void:
 	shown.screenMoveY=movement.y
 	body.update_unit(shown,Vector2(96,96))
 	var bench:bool=value.get("bench",false)
-	scale=Vector3.ONE*(0.86 if bench else 1.0)
+	var cost:int=int(ArtLibrary.character(int(value.id)).cost)
+	scale=Vector3.ONE*(0.86 if bench else 1.0)*(1.22 if cost==5 and not value.get("summon",false) else 1.08 if cost==4 else 1.0)
+	ring.material_override=arena.material(ArtLibrary.quality_color(cost),0.25,0.30 if cost==5 else 0.05)
 	collision.collision_layer=2 if value.get("alive",true) else 0
 
 func _process(delta: float) -> void:
@@ -107,6 +109,11 @@ func _process(delta: float) -> void:
 	var lift:=maxf(0,picture.position.y-0.71)+maxf(0,-body.sprite.position.y-5)*0.011
 	contact_shadow.scale=Vector3.ONE*(1.0+lift*0.5)
 	contact_shadow.material_override.set_shader_parameter("opacity",clampf(0.48-lift*0.25,0.20,0.48))
+	if "bookbound" in unit.get("buffs",[]):
+		picture.texture=ArtLibrary.prop("book")
+		picture.pixel_size=0.95/maxf(picture.texture.get_width(),picture.texture.get_height())
+		picture.scale=Vector3.ONE
+		picture.position.y=0.45
 	accessory.visible=body.accessory.visible and body.accessory.texture!=null and body.visible
 	if accessory.visible:
 		accessory.texture=body.accessory.texture
@@ -115,7 +122,7 @@ func _process(delta: float) -> void:
 		accessory.flip_h=body.accessory.flip_h
 		accessory.modulate.a=body.modulate.a
 
-	ring.visible=body.selected or body.upgrade_age<0.85
+	ring.visible=body.selected or body.upgrade_age<0.85 or (int(ArtLibrary.character(int(unit.get("id",0))).cost)>=4 and not unit.get("summon",false))
 	if body.upgrade_age<0.85:
 		ring.scale=Vector3.ONE*(1+body.upgrade_age)
 	else:ring.scale=Vector3.ONE

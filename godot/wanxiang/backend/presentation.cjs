@@ -24,6 +24,7 @@ module.exports=function({Battle,FACTIONS}){
   if([20,48].includes(u.id))target=this.closest(u,others)||u;
   if([26,32,35,39,52].includes(u.id))target=this.lowest(u.id===52?this.near(u,allies,3):allies)[0]||u;
   if(u.id===17)target=[...allies].sort((a,b)=>b.recent.reduce((n,v)=>n+v.damage,0)-a.recent.reduce((n,v)=>n+v.damage,0))[0]||u;
+  if(u.d.cost===5&&this.legendaryFocus)target=this.legendaryFocus(u);
   u.aimUid=target?.uid||null;
   const delay=[13,44,62].includes(u.id)?.12:.32,skill=u.uid+':'+u.skillSequence;
   context(this,u,()=>this.effect('charge',u,target,undefined,{life:delay,skill:true}),skill);

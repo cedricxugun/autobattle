@@ -6,19 +6,23 @@
 
 Windows 64 位便携包见 [Releases](https://github.com/cedricxugun/autobattle/releases)。解压整个目录后运行 `万象棋局.exe`，无需额外安装 Godot 或 Node。请保留同目录的 `game` 和 `runtime` 文件夹。
 
-![0.5 战斗实机](docs/images/battle-0.5.png)
+![0.6 传说技能实机](docs/images/legendary-0.6.png)
 
-[观看小车与法槌技能实录（无声）](docs/video/skills-0.5.mp4)
+## 0.6 十人口与传说
 
-## 0.5 演出更新
+8名棋手参赛，最高10人口；经验、商店概率和AI同步扩展，联赛上限35轮。每个学科的9名角色按普通/精良/稀有/史诗/传说分为2/2/2/2/1名，商店、图鉴、详情与战场标记明确区分品质。
 
-小车与法槌使用真实3D网格，加入飞行/挥落、接地回弹与命中碎片。普通命中按学科使用不同3D碎片；角色接触阴影和落子动作已调整。混战文字默认简化，按住Alt查看详情。角色仍采用序列帧，未声称54个技能全部重制。
+六张5费卡分别承担群控强化、回卷救场、百分比区域伤害、复活援军、三幕爆发变书和反施法领域。加入独立3D演出、目标范围、可打断蓄力、友敌横幅与释放音效；首次技能时间错开，减少大招同时遮挡战场。
+
+便携包内的“十人口传说演练.cmd”直接进入10对10演示，使用实际战斗数值，不修改联赛存档。图鉴仍可分别测试每个技能。
+
+[具体规则、研究来源与验证结果](docs/endgame-0.6.md)。这不是完全复制DOTA AUTO CHESS；角色仍为2D序列帧，整体美术和全阵容平衡还需要迭代。
 
 ## 当前内容
 
 - 54 种棋子、6 个学科、5 档费用、3 个星级，以及 9 种野怪、6 件装备。
 - 招募、共享有限卡池、刷新、锁店、升人口、合星、拖拽交换与上下场、装备掉落。
-- 玩家与 7 名 AI 的联赛；简单、困难、磨难；独立主场攻防、观战、淘汰和最终排名。
+- 最多10人口上阵、35轮上限；玩家与 7 名 AI 的联赛；简单、困难、磨难；独立主场攻防、观战、淘汰和最终排名。
 - 学科/职业/品质/文学题材图鉴、独立技能演示、半速及重播、知识线索和来源。
 - 实体3D庭院：地面格位与周围步道连为一体；真实观测站、故事剧场和天体仪模型；近端九席备战石座。
 - 18件原创技能道具；9个角色重点重做了技能时序和喜剧演出。0.4增加重点投掷技能的贴地目标/进度标记、透视尺寸和视觉中断；未声称所有54个技能重制。
@@ -46,6 +50,7 @@ Godot 原生界面与场景负责显示和交互；随附本地 Node 对局模�
 
 ```powershell
 godot\wanxiang\runtime\node.exe godot\wanxiang\backend\test-native.cjs
+godot\wanxiang\runtime\node.exe godot\wanxiang\backend\test-endgame.cjs
 godot\wanxiang\runtime\node.exe godot\wanxiang\backend\test-presentation.cjs
 godot\wanxiang\runtime\node.exe godot\wanxiang\backend\test-comic.cjs
 godot\tools\godot-4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path godot/wanxiang --max-fps 60 --script res://scripts/test_drag_input.gd -- --qa

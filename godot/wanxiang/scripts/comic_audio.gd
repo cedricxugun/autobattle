@@ -6,6 +6,7 @@ static func sound(kind: String) -> AudioStreamWAV:
 	if cache.has(kind):
 		return cache[kind]
 	var duration := 0.42 if kind in ["gag_fizz","gag_dice"] else 0.24
+	if kind.begins_with("legendary_"):duration=0.75
 	var count := int(22050*duration)
 	var bytes := PackedByteArray()
 	bytes.resize(count*2)
@@ -37,6 +38,11 @@ static func sound(kind: String) -> AudioStreamWAV:
 				value=low*sin(x*PI)*0.55
 			_:
 				value=(noise_value-low)*sin(x*PI)*0.25
+		if kind.begins_with("legendary_"):
+			var code:=int(kind.trim_prefix("legendary_"))
+			var tone:float=196.0+float(code/9)*26.0
+			var attack:=minf(1.0,t*28)
+			value=((sin(TAU*tone*t)+.5*sin(TAU*tone*1.5*t)+.3*sin(TAU*tone*2*t))*.35*exp(-x*3)+low*.35*exp(-x*14))*attack
 		value *= minf(1,x*50)
 		bytes.encode_s16(i*2,int(clampf(value,-1,1)*10000))
 	var result := AudioStreamWAV.new()

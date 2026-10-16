@@ -11,12 +11,18 @@ var ignore_click_until := 0
 var picture := TextureRect.new()
 var title_label := Label.new()
 var sub_label := Label.new()
+var quality_label := Label.new()
+var reveal_age := 0.0
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 1)
 	add_child(vbox)
+	quality_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	quality_label.add_theme_font_size_override("font_size",11)
+	quality_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	vbox.add_child(quality_label)
 	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	picture.custom_minimum_size = Vector2(60, 62 if mode == "shop" else 44)
@@ -49,12 +55,26 @@ func refresh() -> void:
 		tooltip_text = sub_label.text
 		return
 	if info.is_empty() or info.get("sold", false):
+		quality_label.text=""
 		picture.texture = null
 		title_label.text = "已招募" if mode == "shop" else "空位"
 		sub_label.text = ""
 		return
 	var id := int(info.id)
 	var d := ArtLibrary.character(id)
+	var quality:=ArtLibrary.quality_color(int(d.cost))
+	var frame:=StyleBoxFlat.new()
+	frame.bg_color=Color("182630").lerp(quality,0.09 if int(d.cost)<5 else 0.20)
+	frame.border_color=quality
+	frame.set_border_width_all(1 if int(d.cost)<4 else 2)
+	frame.border_width_top=3 if int(d.cost)<5 else 5
+	frame.set_corner_radius_all(6)
+	frame.content_margin_top=4
+	frame.content_margin_bottom=4
+	add_theme_stylebox_override("panel",frame)
+	quality_label.text="%s · %d 金"%[ArtLibrary.data().quality[int(d.cost)],int(d.cost)]
+	quality_label.modulate=quality
+	title_label.modulate=quality
 	picture.texture = ArtLibrary.actor_frame(id, int(info.get("star", 1)))
 	title_label.text = str(d.name) + (" · %d" % int(d.cost) if mode == "shop" else " " + "★".repeat(int(info.get("star", 1))))
 	var school_name := str(d.faction)
@@ -63,6 +83,12 @@ func refresh() -> void:
 			school_name = f.name
 	sub_label.text = school_name + " · " + ArtLibrary.data().roles[d.role].name
 	tooltip_text = d.name + "\n" + d.skill + "\n" + d.desc
+	if d.get("legendary",false):tooltip_text+="\n定位："+str(d.identity)+"\n应对："+str(d.counter)
+
+func _process(delta:float) -> void:
+	reveal_age+=delta
+	if mode=="shop" and int(info.get("cost",0))==5 and not info.get("sold",false):
+		quality_label.modulate=ArtLibrary.quality_color(5).lightened((sin(reveal_age*3)+1)*0.10)
 
 func _gui_input(event: InputEvent) -> void:
 	if mode == "item":

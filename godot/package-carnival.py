@@ -4,7 +4,7 @@ import shutil, zipfile
 base=Path(__file__).resolve().parent
 workspace=base.parent
 source=base/'wanxiang'
-destination=workspace/'output'/'万象棋局-战斗演出-0.5'
+destination=workspace/'output'/'万象棋局-十人口传说-0.6'
 destination.mkdir(parents=True,exist_ok=True)
 game=destination/'game'
 for path in source.rglob('*'):
@@ -23,9 +23,10 @@ materials=destination/'制作资料';materials.mkdir(exist_ok=True)
 for name in ['comic-art-prompts.json','comic-extra-prompt.txt','carnival-scene-prompt.txt','arena-v2-prompts.json','courtyard-3d-prompts.json','battle-polish-prompts.json','场景改造说明.txt','Launcher.cs']:
     shutil.copy2(base/name,materials/name)
 (destination/'趣味技能剧场.cmd').write_text('@echo off\r\nchcp 65001 >nul\r\nstart "" "%~dp0万象棋局.exe" --theater\r\n',encoding='utf-8')
-preview=workspace/'output'/'万象棋局-0.5技能实录.mp4'
+(destination/'十人口传说演练.cmd').write_text('@echo off\r\nchcp 65001 >nul\r\nstart "" "%~dp0万象棋局.exe" --endgame\r\n',encoding='utf-8')
+preview=workspace/'output'/'万象棋局-0.6技能实录.mp4'
 if preview.exists():shutil.copy2(preview,destination/'技能实录.mp4')
-archive=workspace/'output'/'万象棋局-战斗演出-0.5-Windows64.zip'
+archive=workspace/'output'/'万象棋局-十人口传说-0.6-Windows64.zip'
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=3) as package:
     for path in destination.rglob('*'):
         if path.is_file():package.write(path,path.relative_to(destination.parent))

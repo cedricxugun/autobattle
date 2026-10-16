@@ -52,7 +52,7 @@ for(const difficulty of ['easy','hard','torment']){
  const session=new Session();session.command('new',{difficulty});const g=session.game;
  g.preferences=['math','chemistry'];g.intent='automated player';g.gold=80;
  let rounds=0;
- for(let i=0;i<25;i++){
+ for(let i=0;i<35;i++){
   g.planAI(g);invariant(g);
   if(g.roundType==='pvp'){
    assert.equal(new Set(g.matches.map(m=>m.owner)).size,g.living().length);

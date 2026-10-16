@@ -102,7 +102,7 @@ func _ready() -> void:
 	demo.pressed.connect(func(): demonstrate.emit(selected_id); hide())
 	controls.add_child(demo)
 	var stress := Button.new()
-	stress.text = "8对8演练"
+	stress.text = "10对10演练"
 	stress.pressed.connect(func(): demonstrate.emit(-2); hide())
 	controls.add_child(stress)
 	var row := HBoxContainer.new()
@@ -189,9 +189,9 @@ func _populate() -> void:
 		var caption := text_label(str(d.name),12)
 		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		caption.modulate = ArtLibrary.faction_color(str(d.faction))
+		caption.modulate = ArtLibrary.quality_color(int(d.cost))
 		column.add_child(caption)
-		var sub := text_label(("野怪" if int(d.id)>=54 else "%d费" % int(d.cost))+" · "+str(ArtLibrary.data().roles[d.role].name),10)
+		var sub := text_label(("野怪" if int(d.id)>=54 else "%s · %d费"%[ArtLibrary.data().quality[int(d.cost)],int(d.cost)])+" · "+str(ArtLibrary.data().roles[d.role].name),10)
 		sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		sub.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		column.add_child(sub)
@@ -202,8 +202,9 @@ func show_character(id: int) -> void:
 	elapsed = 0
 	var d := ArtLibrary.character(selected_id)
 	title.text = str(d.name)
-	title.modulate = ArtLibrary.faction_color(str(d.faction))
+	title.modulate = ArtLibrary.quality_color(int(d.cost))
 	description.text = str(d.skill)+"\n\n"+str(d.desc)+("\n\n"+str(d.joke) if d.has("joke") else "")+("\n野怪没有合成升星。" if id>=54 else "")
+	if d.get("legendary",false):description.text+="\n\n终局定位："+str(d.identity)+"\n应对方法："+str(d.counter)
 	knowledge.text = "[b]"+str(d.get("concept","知识异变"))+"[/b]\n\n"+str(d.get("fact","野怪是本作虚构的关卡角色。"))+"\n\n[color=#baa98c]游戏改编：[/color]"+str(d.get("adaptation","技能与数值为游戏设计。"))
 	source_url = str(d.get("source_url",""))
 	source_button.visible = not source_url.is_empty()

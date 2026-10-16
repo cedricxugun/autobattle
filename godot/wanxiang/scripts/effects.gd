@@ -83,6 +83,12 @@ func update_state(value: Dictionary) -> void:
 						voice.stream=ComicAudio.sound(str(e.type))
 						voice.play()
 						break
+			if e.type=="legendary_release" and sound_enabled:
+				for voice in voices:
+					if not voice.playing:
+						voice.stream=ComicAudio.sound("legendary_"+str(int(e.get("legend",8))))
+						voice.play()
+						break
 			if e.has("joke") and (comic_line.is_empty() or clock-float(comic_line.get("born",0))>2.2):
 				comic_line = {"text":str(e.joke),"actor":int(e.get("actor",0)),"born":clock}
 			if e.type == "cast":
@@ -177,7 +183,7 @@ func _process(delta: float) -> void:
 
 func _cue_alive(e: Dictionary) -> bool:
 	if clock-float(e.born)>=float(e.life)+(0.18 if e.type in ["bolt","orb"] else 0.0):return false
-	if e.type in ["gag_gavel","gag_house"]:
+	if e.type in ["gag_gavel","gag_house","legendary_charge"]:
 		var caster:=unit(str(e.get("sourceUid","")))
 		if caster.is_empty() or not caster.get("alive",true):return false
 		if "stun" in caster.get("buffs",[]) or "silence" in caster.get("buffs",[]):return false
@@ -329,6 +335,18 @@ func _draw_focus(canvas: CanvasItem) -> void:
 	canvas.draw_string(font,Vector2(98,39),str(d.name)+" "+"★".repeat(int(focused.star)),HORIZONTAL_ALIGNMENT_LEFT,155,15,ArtLibrary.faction_color(str(d.faction)))
 	canvas.draw_string(font,Vector2(98,62),str(d.skill),HORIZONTAL_ALIGNMENT_LEFT,155,12,Color("e5d4b1"))
 	canvas.draw_string(font,Vector2(98,84),"右键查看技能与知识",HORIZONTAL_ALIGNMENT_LEFT,155,11,Color("b4c5c6"))
+
+func _draw_legendary_banner(canvas:CanvasItem) -> void:
+	var releases:=active.filter(func(e):return e.type=="legendary_release")
+	if releases.is_empty():return
+	var e:Dictionary=releases.back()
+	var alpha:=clampf((1.7-(clock-float(e.born)))*2,0,1)
+	if alpha<=0:return
+	var x:float=board.size.x*.5-190
+	canvas.draw_rect(Rect2(x,12,380,58),Color(.07,.09,.12,.86*alpha))
+	canvas.draw_rect(Rect2(x,12,380,3),Color("efc476",alpha))
+	canvas.draw_string(font,Vector2(x+14,38),("友方传说 · " if int(e.get("team",0))==0 else "敌方传说 · ")+str(e.sourceName),HORIZONTAL_ALIGNMENT_LEFT,352,17,Color("efc476",alpha))
+	canvas.draw_string(font,Vector2(x+14,59),str(e.skillName),HORIZONTAL_ALIGNMENT_LEFT,352,14,Color("eee4ce",alpha))
 
 func _draw_numbers() -> void:
 	var occupied: Array[Rect2] = []

@@ -62,7 +62,7 @@ var qa_capture_cue := ""
 var qa_capturing := false
 
 func _ready() -> void:
-	DisplayServer.window_set_title("万象棋局 · 战斗演出 0.5 预览")
+	DisplayServer.window_set_title("万象棋局 · 十人口与传说 0.6 预览")
 	get_window().title = "万象棋局 · 知识嘉年华"
 	get_window().min_size = Vector2i(1180, 740)
 	var font := SystemFont.new()
@@ -162,7 +162,7 @@ func _build_interface() -> void:
 	header.add_theme_constant_override("separation", 15)
 	root.add_child(header)
 	header.add_child(label("万象棋局", 27, Color("e5cd98")))
-	header.add_child(label("演出 · 0.5",11,Color("8ba8a6")))
+	header.add_child(label("终局 · 0.6",11,Color("8ba8a6")))
 	round_label = label("联赛连接中", 15)
 	round_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -321,7 +321,7 @@ func _build_interface() -> void:
 	var help_text := RichTextLabel.new()
 	help_text.custom_minimum_size = Vector2(660, 420)
 	help_text.bbcode_enabled = true
-	help_text.text = "[b]操作[/b]\n左键购买商店棋子；右键查看技能。拖拽场上棋子换位，拖回备战席撤下，拖到已有棋子上直接交换。装备可从背包拖给棋子。\n\n[b]升星与外观[/b]\n三个同名同星合成高一星。每星使用独立造型与动作帧。最高三星。\n\n[b]联赛与观战[/b]\n八个棋盘同时独立战斗。你面对来袭镜像，你的镜像也会挑战另一棋手。点击右侧列表切换观战。本人的棋盘失败才扣本人的生命。\n\n[b]野怪与掉落[/b]\n第1、2、3、8、13、18、23轮为野怪。首轮和精英轮战胜野怪后可从三件遗物中选一件。\n\n[b]卡池[/b]\n1至5费各角色共有35/30/25/18/12张。商店占用库存，刷新、出售和淘汰归还；二星占3张、三星占9张。5级开始出现4费，6级开始出现5费。\n\n[b]伤害[/b]\n基础双抗=18+费用×3+羁绊+装备。实际伤害=面板伤害×增伤×100/(100+有效抗性)×减伤；护盾先吸收，剩余扣血。普攻走护甲，默认技能走法抗。100伤害打50抗性约造成66.7伤害。\n\n[b]经济[/b]\n每轮8基础金币，胜利额外3、失败额外1，每10存款+1利息，上限5。每轮+2经验，4金币研习+4经验。"
+	help_text.text = "[b]操作[/b]\n左键购买商店棋子；右键查看技能。拖拽场上棋子换位，拖回备战席撤下，拖到已有棋子上直接交换。装备可从背包拖给棋子。\n\n[b]升星与外观[/b]\n三个同名同星合成高一星。每星使用独立造型与动作帧。最高三星。\n\n[b]联赛与观战[/b]\n8人参赛，最高10级/10人口上阵，最多35轮。八个棋盘同时独立战斗。你面对来袭镜像，你的镜像也会挑战另一棋手。点击右侧列表切换观战。本人的棋盘失败才扣本人的生命。\n\n[b]野怪与掉落[/b]\n第1、2、3、8、13、18、23、28、33轮为野怪。首轮和精英轮战胜野怪后可从三件遗物中选一件。\n\n[b]卡池[/b]\n1至5费各角色共有35/30/25/18/12张。商店占用库存，刷新、出售和淘汰归还；二星占3张、三星占9张。5级开始出现4费，7级开始出现5费；7/8/9/10级传说概率为1%/6%/15%/25%。每系9角色包含2张普通、2张精良、2张稀有、2张史诗、1张传说。\n\n[b]伤害[/b]\n基础双抗=18+费用×3+羁绊+装备；5费英雄额外+12。实际伤害=面板伤害×增伤×100/(100+有效抗性)×减伤；护盾先吸收，剩余扣血。普攻走护甲，默认技能走法抗。100伤害打50抗性约造成66.7伤害。\n\n[b]经济[/b]\n每轮8基础金币，胜利额外3、失败额外1，每10存款+1利息，上限5。每轮+2经验，4金币研习+4经验。"
 	help_box.add_child(help_text)
 	help_box.add_child(button("返回棋局", func(): help_panel.hide()))
 	toast = label("", 16, Color("f0d89d"))
@@ -404,7 +404,7 @@ func _refresh_hud() -> void:
 	dock.visible = state.phase != "battle"
 	players_panel.visible = not state.get("preview", false)
 	var names := {"easy": "简单", "hard": "困难", "torment": "磨难"}
-	round_label.text = "第 %d / 25 回合 · %s · %s" % [int(state.round), "野怪" if state.roundType == "pve" else "棋手", names.get(state.difficulty, "困难")]
+	round_label.text = "第 %d / %d 回合 · %s · %s" % [int(state.round), int(state.get("maxRounds",35)), "野怪" if state.roundType == "pve" else "棋手", names.get(state.difficulty, "困难")]
 	if state.get("preview",false):
 		round_label.text = "独立技能演示 · 不影响联赛"
 	health_label.text = "生命 %d" % int(state.health)
@@ -414,12 +414,12 @@ func _refresh_hud() -> void:
 		if u.c != null:
 			deployed += 1
 	level_label.text = "等级 %d · 上阵 %d / %d" % [int(state.level), deployed, int(state.level)]
-	xp_label.text = "最高等级" if int(state.level) == 8 else "经验 %d / %d" % [int(state.xp), int(state.xpNeed)]
-	odds_label.text = "万象集市 · 品质概率 %s" % " / ".join(state.odds.map(func(v): return str(int(v)) + "%"))
+	xp_label.text = "最高等级" if int(state.level) >= int(state.get("maxLevel",10)) else "经验 %d / %d" % [int(state.xp), int(state.xpNeed)]
+	odds_label.text = "白 / 绿 / 蓝 / 紫 / 金 · %s" % " / ".join(state.odds.map(func(v): return str(int(v)) + "%"))
 	begin_button.disabled = (not preparing or deployed == 0) and not state.get("preview",false)
 	begin_button.text = "退出技能演示" if state.get("preview",false) else "开始战斗"
 	refresh_button.disabled = not preparing or int(state.gold) < 2
-	xp_button.disabled = not preparing or int(state.gold) < 4 or int(state.level) >= 8
+	xp_button.disabled = not preparing or int(state.gold) < 4 or int(state.level) >= int(state.get("maxLevel",10))
 	lock_button.disabled = not preparing
 	lock_button.text = "已锁定" if state.locked else "锁定"
 	pause_button.visible = state.phase == "battle"
@@ -598,7 +598,8 @@ func _show_detail(d: Dictionary) -> void:
 	hero.add_child(image)
 	var info := VBoxContainer.new()
 	hero.add_child(info)
-	info.add_child(label(str(d.name), 22))
+	info.add_child(label(str(d.name), 22,ArtLibrary.quality_color(int(d.cost))))
+	info.add_child(label("%s · %d费"%[ArtLibrary.data().quality[int(d.cost)],int(d.cost)],12,ArtLibrary.quality_color(int(d.cost))))
 	info.add_child(label("★".repeat(int(d.star)), 17, Color("ead08b")))
 	info.add_child(label("生命 %d\n攻击 %d\n护甲 %d / 法抗 %d" % [int(d.stats.hp), int(d.stats.atk), int(d.stats.def), int(d.stats.mr)], 12))
 	popup_box.add_child(label(str(d.skill), 16, Color("dec58e")))
@@ -698,7 +699,7 @@ func _toast(text: String, error: bool = false) -> void:
 func _play_sound(kind: String) -> void:
 	if not sound_enabled:
 		return
-	var frequencies := {"buy": 520.0, "merge": 880.0, "level": 740.0, "win": 660.0, "lose": 180.0, "loot": 960.0, "equip": 620.0, "roll": 330.0, "move": 400.0}
+	var frequencies := {"buy": 520.0, "merge": 880.0, "level": 740.0, "win": 660.0, "lose": 180.0, "loot": 960.0, "equip": 620.0, "legendary": 1174.0, "roll": 330.0, "move": 400.0}
 	if not frequencies.has(kind):
 		return
 	var hz: float = frequencies[kind]

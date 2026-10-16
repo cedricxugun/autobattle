@@ -1,0 +1,98 @@
+[
+  {
+    "legend": 8,
+    "name": "公理之龙",
+    "matchups": 18,
+    "wins": [
+      7,
+      12
+    ],
+    "upgradesToWin": 5,
+    "changedToLoss": 0,
+    "averageDamage": [
+      1533,
+      4945
+    ],
+    "released": 18
+  },
+  {
+    "legend": 17,
+    "name": "时空织者",
+    "matchups": 18,
+    "wins": [
+      9,
+      12
+    ],
+    "upgradesToWin": 6,
+    "changedToLoss": 3,
+    "averageDamage": [
+      2729,
+      1127
+    ],
+    "released": 18
+  },
+  {
+    "legend": 26,
+    "name": "平衡奇美拉",
+    "matchups": 18,
+    "wins": [
+      5,
+      11
+    ],
+    "upgradesToWin": 6,
+    "changedToLoss": 0,
+    "averageDamage": [
+      2340,
+      4221
+    ],
+    "released": 18
+  },
+  {
+    "legend": 35,
+    "name": "文明方舟",
+    "matchups": 18,
+    "wins": [
+      3,
+      8
+    ],
+    "upgradesToWin": 5,
+    "changedToLoss": 0,
+    "averageDamage": [
+      1279,
+      1141
+    ],
+    "released": 18
+  },
+  {
+    "legend": 44,
+    "name": "万卷龙",
+    "matchups": 18,
+    "wins": [
+      0,
+      9
+    ],
+    "upgradesToWin": 9,
+    "changedToLoss": 0,
+    "averageDamage": [
+      1676,
+      5536
+    ],
+    "released": 18
+  },
+  {
+    "legend": 53,
+    "name": "法典巨龙",
+    "matchups": 18,
+    "wins": [
+      3,
+      6
+    ],
+    "upgradesToWin": 3,
+    "changedToLoss": 0,
+    "averageDamage": [
+      1936,
+      3068
+    ],
+    "released": 18
+  }
+]

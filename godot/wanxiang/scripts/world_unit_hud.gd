@@ -11,8 +11,8 @@ func _draw() -> void:
 	for actor in board.stage.actors.values():
 		var u:Dictionary=actor.unit
 		if not u.get("alive",true):continue
-		var name: String = ArtLibrary.character(int(u.id)).name
-		var point:=board.stage.camera.unproject_position(actor.global_position+Vector3(0,1.47,0))
+		var name: String = "先民护卫" if u.get("kind")=="ancestor" else ArtLibrary.character(int(u.id)).name
+		var point:=board.stage.camera.unproject_position(actor.global_position+Vector3(0,1.47*actor.scale.y,0))
 		var foot:=board.stage.camera.unproject_position(actor.global_position)
 		var color:=Color("a9dbc6") if int(u.team)==0 else Color("e2a295")
 		var title:=name+" "+"★".repeat(int(u.star)) if u.get("bench",false) else name
@@ -22,6 +22,8 @@ func _draw() -> void:
 			draw_string_outline(font,foot+Vector2(-width/2,12),title,HORIZONTAL_ALIGNMENT_LEFT,-1,10,3,Color("0a1824"))
 			draw_string(font,foot+Vector2(-width/2,12),title,HORIZONTAL_ALIGNMENT_LEFT,-1,10,color)
 		if u.get("bench",false):continue
+		var rarity:=ArtLibrary.quality_color(int(ArtLibrary.character(int(u.id)).cost))
+		draw_colored_polygon(PackedVector2Array([point+Vector2(-31,-2),point+Vector2(-27,2),point+Vector2(-31,6),point+Vector2(-35,2)]),rarity)
 		var hp:=clampf(float(u.hp)/maxf(1,float(u.maxhp)),0,1)
 		draw_rect(Rect2(point-Vector2(23,2),Vector2(46,6)),Color("101e29"))
 		draw_rect(Rect2(point-Vector2(22,1),Vector2(44*actor.body.trailing_health,4)),Color("bda777"))
@@ -34,7 +36,7 @@ func _draw() -> void:
 			draw_rect(Rect2(point+Vector2(-22,9),Vector2(44*ready,2)),ArtLibrary.faction_color(str(u.faction)))
 		draw_string(font,point+Vector2(-14,-5),"★".repeat(int(u.star)),HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color("ead5a0"))
 		var tags:Array[String]=[]
-		var names:Dictionary={"stun":"晕","root":"定","silence":"默","slow":"缓","acid":"酸","charge":"电","heat":"热"}
+		var names:Dictionary={"stun":"晕","root":"定","silence":"默","slow":"缓","acid":"酸","charge":"电","heat":"热","bookbound":"变书"}
 		for key in u.get("buffs",[]):
 			if names.has(key):tags.append(names[key])
 		for key in u.get("marks",[]):

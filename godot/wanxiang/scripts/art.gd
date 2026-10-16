@@ -132,6 +132,9 @@ static func faction_color(id: String) -> Color:
 			return Color(f.color)
 	return Color("d9ac7b")
 
+static func quality_color(cost: int) -> Color:
+	return Color(data().quality_colors[clampi(cost,1,5)])
+
 static func item_frame(id: String) -> AtlasTexture:
 	var ids := ["blade", "armor", "heart", "tempo", "focus", "veil"]
 	var index := ids.find(id)

@@ -24,7 +24,7 @@ internal static class Launcher {
                     if (process.ExitCode != 0) throw new Exception("首次准备失败，请保留完整目录后重试。");
                 }
             }
-            string suffix = args.Length > 0 && args[0] == "--theater" ? " -- --qa --demo=10" : "";
+            string suffix = args.Length > 0 && args[0] == "--theater" ? " -- --qa --demo=10" : args.Length > 0 && args[0] == "--endgame" ? " -- --qa --demo=-2" : "";
             var start = new ProcessStartInfo(engine, "--path \"" + game + "\"" + suffix);
             start.UseShellExecute = false;
             start.CreateNoWindow = true;

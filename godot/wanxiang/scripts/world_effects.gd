@@ -34,6 +34,7 @@ func _own(node:Node, owner_node:Node) -> void:
 	for child in node.get_children():_own(child,owner_node)
 
 func handles(e:Dictionary) -> bool:
+	if str(e.type).begins_with("legendary_"):return true
 	if e.type=="gag_magnet":return templates.has("magnet-car")
 	if e.type=="gag_gavel":return templates.has("verdict-gavel")
 	if e.type=="gag_land":
@@ -57,6 +58,12 @@ func _mesh(parent:Node3D, mesh:Mesh, color:Color) -> MeshInstance3D:
 	return n
 
 func _spawn(e:Dictionary) -> Node3D:
+	if str(e.type).begins_with("legendary_"):
+		var legend:Node3D=load("res://scripts/legendary_visual.gd").new()
+		legend.arena=arena
+		add_child(legend)
+		legend.configure(e)
+		return legend
 	var n:=Node3D.new()
 	add_child(n)
 	var color:=ArtLibrary.faction_color(str(e.get("faction","math")))
@@ -136,6 +143,9 @@ func _process(_delta:float) -> void:
 		present[id]=true
 		if not live.has(id):live[id]=_spawn(e)
 		var node:Node3D=live[id]
+		if str(e.type).begins_with("legendary_"):
+			node.animate(age,float(e.life))
+			continue
 		var a:=_point(float(e.x),float(e.y))
 		var b:=_target(e)
 		if e.type=="gag_magnet":

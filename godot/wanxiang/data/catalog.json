@@ -15,7 +15,10 @@
       "joke": "三角守卫：三角关系，这次真的很稳定。",
       "prop": "dice",
       "caption": "三角关系，很稳！",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 1,
@@ -32,7 +35,10 @@
       "joke": "计数鼠：一二三四……这单凑够了。",
       "prop": "dice",
       "caption": "满五发货",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 2,
@@ -49,7 +55,10 @@
       "joke": "镜面双生：我和我商量过了，都不想加班。",
       "prop": "camera",
       "caption": "复制一份我",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 3,
@@ -69,7 +78,10 @@
         "概率喜剧"
       ],
       "prop": "dice",
-      "caption": "概率不背锅"
+      "caption": "概率不背锅",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 4,
@@ -86,7 +98,10 @@
       "joke": "递推石像：盾不够？把上次的再套一层。",
       "prop": "dice",
       "caption": "再套一层",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 5,
@@ -103,7 +118,10 @@
       "joke": "坐标猎手：地址收到了，马上到你背后。",
       "prop": "parcel",
       "caption": "坐标已签收",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 6,
@@ -120,7 +138,10 @@
       "joke": "指数孢子：第一家分店开业，第二家也快了。",
       "prop": "straw",
       "caption": "分店开业",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 7,
@@ -137,24 +158,33 @@
       "joke": "极限贤者：先别结算，我还有三秒。",
       "prop": "hourglass",
       "caption": "伤害分期",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 8,
       "name": "公理之龙",
       "cost": 5,
       "role": "mage",
-      "cd": 12,
-      "skill": "建立公理",
-      "desc": "按战前选择：全体数学获得180盾；或6秒施法成长；或净化并治疗180。",
+      "cd": 14,
+      "skill": "公理改写",
+      "desc": "蓄力1秒，锁定最密集敌群：2.6格内360技能伤害并禁足1.6秒。全体友军按战前公理获得220盾、6秒技能增幅35%，或净化并治疗220。",
       "faction": "math",
       "cell": 8,
       "concept": "公理与推演",
       "fact": "公理是演绎体系中作为出发点接受的命题；后续结论仍需遵守逻辑规则。",
       "joke": "公理之龙：今天的班规，先从给大家发盾开始。",
       "prop": "book",
-      "caption": "班规发布会",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "caption": "传说觉醒",
+      "adaptation": "以上为原创游戏规则，不代表现实学术规律。",
+      "quality": "传说",
+      "qualityColor": "#efc476",
+      "stageRole": "终局",
+      "identity": "群控与全队强化",
+      "counter": "分散站位，打断一秒证明",
+      "legendary": true
     },
     {
       "id": 9,
@@ -171,7 +201,10 @@
       "joke": "弹簧兔：迟到不可怕，弹回来就行。",
       "prop": "hourglass",
       "caption": "弹性上班",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 10,
@@ -193,7 +226,10 @@
         "科学闹剧"
       ],
       "prop": "magnet",
-      "caption": "停车场来客"
+      "caption": "停车场来客",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 11,
@@ -210,7 +246,10 @@
       "joke": "惯性铁犀：我已经刹车了，身体还没收到通知。",
       "prop": "car",
       "caption": "刹不住了",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 12,
@@ -227,7 +266,10 @@
       "joke": "回声蝠：喂？喂？刚才谁在喊我？",
       "prop": "megaphone",
       "caption": "回声点名",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 13,
@@ -244,7 +286,10 @@
       "joke": "动量重锤：准备好了吗？我还在摆。",
       "prop": "gavel",
       "caption": "摆到就是赚到",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 14,
@@ -261,7 +306,10 @@
       "joke": "棱镜鹿：一道光进来，三份快递出去。",
       "prop": "crown",
       "caption": "彩虹分拣",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 15,
@@ -278,7 +326,10 @@
       "joke": "引力巨鲸：全体注意，向我这边稍微挤一挤。",
       "prop": "hourglass",
       "caption": "全员向心",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 16,
@@ -295,24 +346,33 @@
       "joke": "谐振凤凰：你们三个，跟上同一个拍子！",
       "prop": "megaphone",
       "caption": "同频蹦迪",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 17,
       "name": "时空织者",
       "cost": 5,
       "role": "support",
-      "cd": 12,
-      "skill": "延时回护",
-      "desc": "为受伤最重的三个友军提供护盾，值为最近2秒所受伤害50%，每人上限300。",
+      "cd": 16,
+      "skill": "时空回卷",
+      "desc": "蓄力1秒，全体友军净化并回复100加最近2秒所受伤害的80%，每人最多最大生命45%；最密集敌群2.8格内时停1.6/1.9/2.2秒。",
       "faction": "physics",
       "cell": 8,
       "concept": "时间窗口与记录",
       "fact": "统计最近两秒受到的伤害，是对一段时间窗口的数据汇总，并不是真正让时间倒流。",
       "joke": "时空织者：刚才那两秒，能撤回成护盾吗？",
       "prop": "hourglass",
-      "caption": "撤回两秒",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "caption": "传说觉醒",
+      "adaptation": "以上为原创游戏规则，不代表现实学术规律。",
+      "quality": "传说",
+      "qualityColor": "#efc476",
+      "stageRole": "终局",
+      "identity": "濒死救场与时停",
+      "counter": "持续伤害和回卷后的第二轮爆发",
+      "legendary": true
     },
     {
       "id": 18,
@@ -329,7 +389,10 @@
       "joke": "盐晶虫：别小看我，我可是有棱有角的。",
       "prop": "dice",
       "caption": "有棱有角",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 19,
@@ -351,7 +414,10 @@
         "科学闹剧"
       ],
       "prop": "soda",
-      "caption": "汽水开会"
+      "caption": "汽水开会",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 20,
@@ -368,7 +434,10 @@
       "joke": "缓冲龟：别急别急，先让我缓一缓。",
       "prop": "soda",
       "caption": "缓一下，别炸",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 21,
@@ -385,7 +454,10 @@
       "joke": "催化蝶：我不替你反应，我只负责催。",
       "prop": "megaphone",
       "caption": "化学气氛组",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 22,
@@ -402,7 +474,10 @@
       "joke": "聚合藤：面条越拉越长，队伍越缠越紧。",
       "prop": "letter",
       "caption": "越连越长",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 23,
@@ -419,7 +494,10 @@
       "joke": "氧化猎犬：别跑，我还有两口没咬。",
       "prop": "soda",
       "caption": "氧化三连",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 24,
@@ -436,7 +514,10 @@
       "joke": "相变巨像：上半场热情，下半场冷静。",
       "prop": "hourglass",
       "caption": "冰火换班",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 25,
@@ -453,24 +534,33 @@
       "joke": "电解双蛇：我们意见不同，但电路必须接通。",
       "prop": "magnet",
       "caption": "两极开会",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 26,
       "name": "平衡奇美拉",
       "cost": 5,
       "role": "guard",
-      "cd": 12,
-      "skill": "动态平衡",
-      "desc": "为最低血量两友军提供150至350盾，血量差越大越强；给近敌分别施加酸蚀、热化。",
+      "cd": 14,
+      "skill": "反应堆暴走",
+      "desc": "蓄力1秒，自身获得最大生命30%的盾。最密集敌群所在2.6格区域持续4秒，每秒70加目标最大生命3.5%的伤害，轮流施加酸、电、热标记。",
       "faction": "chemistry",
       "cell": 8,
       "concept": "动态平衡",
       "fact": "化学动态平衡中，正逆反应仍在进行，只是速率相等。",
       "joke": "平衡奇美拉：我不是没在忙，是两边一样忙。",
       "prop": "dice",
-      "caption": "忙得很平衡",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "caption": "传说觉醒",
+      "adaptation": "以上为原创游戏规则，不代表现实学术规律。",
+      "quality": "传说",
+      "qualityColor": "#efc476",
+      "stageRole": "终局",
+      "identity": "范围百分比伤害",
+      "counter": "离开反应区，分散高生命前排",
+      "legendary": true
     },
     {
       "id": 27,
@@ -487,7 +577,10 @@
       "joke": "烽火雀：收到消息的同学，请用攻击回复。",
       "prop": "megaphone",
       "caption": "已读请回击",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 28,
@@ -504,7 +597,10 @@
       "joke": "陶片卫士：碎了？这是我给后人的历史线索。",
       "prop": "brick",
       "caption": "碎片有话说",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 29,
@@ -526,7 +622,10 @@
         "历史生活"
       ],
       "prop": "parcel",
-      "caption": "驿站急送"
+      "caption": "驿站急送",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 30,
@@ -543,7 +642,10 @@
       "joke": "史册鸮：复制这么多份，原件在哪里？",
       "prop": "camera",
       "caption": "核对原件",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 31,
@@ -560,7 +662,10 @@
       "joke": "城邦巨龟：临时施工，远程请绕行。",
       "prop": "brick",
       "caption": "临时施工",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 32,
@@ -577,7 +682,10 @@
       "joke": "商路驼兽：我带来补给，也顺便谈点生意。",
       "prop": "parcel",
       "caption": "以物易回血",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 33,
@@ -594,7 +702,10 @@
       "joke": "迁徙巨象：行李可以丢，队友得带走。",
       "prop": "parcel",
       "caption": "全员搬家",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 34,
@@ -611,24 +722,33 @@
       "joke": "编年巨人：你们先打，我把时间记下来。",
       "prop": "book",
       "caption": "记笔记也很痛",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 35,
       "name": "文明方舟",
       "cost": 5,
       "role": "guard",
-      "cd": 12,
-      "skill": "薪火传承",
-      "desc": "为三友军提供220盾并记录；记录目标死亡时，传承部分攻击与抗性，不能继续传承。",
+      "cd": 16,
+      "skill": "先民归航",
+      "desc": "蓄力1秒，召来两名持续8秒的先民护卫。每队每战仅一次：复活一名已阵亡的高价值友军至40%生命；无人可复活时，改为给最低血量三友军200盾。",
       "faction": "history",
       "cell": 8,
       "concept": "文化传承",
       "fact": "知识与技艺可以跨代传播，传播过程中也会发生选择、变化和创新。",
       "joke": "文明方舟：这份毕业礼物，请传给下一位。",
       "prop": "crown",
-      "caption": "把本事传下去",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "caption": "传说觉醒",
+      "adaptation": "以上为原创游戏规则，不代表现实学术规律。",
+      "quality": "传说",
+      "qualityColor": "#efc476",
+      "stageRole": "终局",
+      "identity": "复活核心与援军",
+      "counter": "控制方舟，范围清理援军",
+      "legendary": true
     },
     {
       "id": 36,
@@ -648,7 +768,10 @@
         "戏剧"
       ],
       "prop": "megaphone",
-      "caption": "别抢台词"
+      "caption": "别抢台词",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 37,
@@ -668,7 +791,10 @@
         "文字游戏"
       ],
       "prop": "book",
-      "caption": "拆字重组"
+      "caption": "拆字重组",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 38,
@@ -688,7 +814,10 @@
         "童话"
       ],
       "prop": "crown",
-      "caption": "借顶王冠"
+      "caption": "借顶王冠",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 39,
@@ -711,7 +840,10 @@
         "戏剧"
       ],
       "prop": "letter",
-      "caption": "阳台别断线"
+      "caption": "阳台别断线",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 40,
@@ -733,7 +865,10 @@
         "童话"
       ],
       "prop": "brick",
-      "caption": "三只小猪赶工"
+      "caption": "三只小猪赶工",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 41,
@@ -755,7 +890,10 @@
         "童话"
       ],
       "prop": "pumpkin",
-      "caption": "午夜倒计时"
+      "caption": "午夜倒计时",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 42,
@@ -776,7 +914,10 @@
         "爱情"
       ],
       "prop": "letter",
-      "caption": "红线营业中"
+      "caption": "红线营业中",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 43,
@@ -798,21 +939,24 @@
         "诗歌"
       ],
       "prop": "book",
-      "caption": "把夏天写进诗里"
+      "caption": "把夏天写进诗里",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 44,
       "name": "万卷龙",
       "cost": 5,
       "role": "mage",
-      "cd": 12,
-      "skill": "落笔成章",
-      "desc": "蓄力1秒释放墨浪与1秒束缚。基础240伤害，每名已施法语文友军加30，上限150。",
+      "cd": 14,
+      "skill": "万卷大结局",
+      "desc": "蓄力1.2秒，向最密集敌群2.6格区域连续落下三幕文字，每幕120伤害，每种已施法语文友军再加15、最多75。末幕将未免疫控制的敌人变为书本并眩晕1.1秒。",
       "faction": "literature",
       "cell": 8,
       "concept": "《仲夏夜之梦》与戏中戏",
       "fact": "《仲夏夜之梦》将恋人、仙灵与业余演员交织在一起；波顿曾被魔法变出驴头。",
-      "adaptation": "万卷龙把队友的登场汇成终幕；墨浪和束缚是游戏演绎，不是原作剧情。",
+      "adaptation": "以上为原创游戏规则，不代表现实学术规律。",
       "joke": "万卷龙：演员就位！谁把驴头道具戴反了？",
       "source_title": "Folger Shakespeare Library · A Midsummer Night’s Dream",
       "source_url": "https://www.folger.edu/explore/shakespeares-works/a-midsummer-nights-dream/",
@@ -821,7 +965,13 @@
         "爱情"
       ],
       "prop": "ears",
-      "caption": "演员串戏了"
+      "caption": "传说觉醒",
+      "quality": "传说",
+      "qualityColor": "#efc476",
+      "stageRole": "终局",
+      "identity": "三幕爆发与变书",
+      "counter": "分散后排，打断1.2秒吟唱或后续连段",
+      "legendary": true
     },
     {
       "id": 45,
@@ -838,7 +988,10 @@
       "joke": "界碑卫士：请排队，插队的脚先借我一下。",
       "prop": "letter",
       "caption": "请勿插队",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 46,
@@ -855,7 +1008,10 @@
       "joke": "证据萤：先拍下来，别急着下结论。",
       "prop": "camera",
       "caption": "证据拍立得",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "普通",
+      "qualityColor": "#a6bbb9",
+      "stageRole": "过渡"
     },
     {
       "id": 47,
@@ -872,7 +1028,10 @@
       "joke": "契约天平：签了这张，就先别盯别人了。",
       "prop": "letter",
       "caption": "签了先别跑",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 48,
@@ -889,7 +1048,10 @@
       "joke": "程序龟：暂停，先把流程走完。",
       "prop": "hourglass",
       "caption": "按流程来",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "精良",
+      "qualityColor": "#8bd0a0",
+      "stageRole": "拼图"
     },
     {
       "id": 49,
@@ -906,7 +1068,10 @@
       "joke": "辩论双狮：你负责吼，我负责把理由讲清楚。",
       "prop": "megaphone",
       "caption": "音量不算证据",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 50,
@@ -923,7 +1088,10 @@
       "joke": "先例鸮：这招上次考过，我留着笔记呢。",
       "prop": "book",
       "caption": "这招我见过",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "稀有",
+      "qualityColor": "#7bb7ed",
+      "stageRole": "骨干"
     },
     {
       "id": 51,
@@ -945,7 +1113,10 @@
         "秩序喜剧"
       ],
       "prop": "gavel",
-      "caption": "槌到付款"
+      "caption": "槌到付款",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 52,
@@ -962,24 +1133,33 @@
       "joke": "衡平鹿：先扶最需要帮忙的那两位。",
       "prop": "parcel",
       "caption": "先扶起来再说",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。",
+      "quality": "史诗",
+      "qualityColor": "#c29beb",
+      "stageRole": "核心"
     },
     {
       "id": 53,
       "name": "法典巨龙",
       "cost": 5,
       "role": "support",
-      "cd": 13,
-      "skill": "公开法庭",
-      "desc": "生成5秒领域，区域内双方单位第二次施法后沉默2秒，每单位只触发一次。",
+      "cd": 16,
+      "skill": "终审领域",
+      "desc": "蓄力1秒，2.6格内敌人受到300伤害并禁足1.2秒；已有3层证据再加180。同区域友军获200盾。6秒内敌人首次尝试施法时被打断，追加140伤害并沉默2秒，不惩罚友军。",
       "faction": "law",
       "cell": 8,
       "concept": "公共规则",
-      "fact": "本技能的领域约束双方，规则也会作用于自己的队伍。",
-      "joke": "法典巨龙：发言机会有限，我自己也排队。",
+      "fact": "公共规则的适用对象与范围需要明确；本技能针对敌人的区域沉默是虚构战斗规则。",
+      "joke": "法典巨龙：你有权保持沉默——现在开始。",
       "prop": "hourglass",
-      "caption": "双方都得守规矩",
-      "adaptation": "技能效果是对知识概念的趣味改编，数值与战斗规则属于游戏。"
+      "caption": "传说觉醒",
+      "adaptation": "以上为原创游戏规则，不代表现实学术规律。",
+      "quality": "传说",
+      "qualityColor": "#efc476",
+      "stageRole": "终局",
+      "identity": "针对施法阵容",
+      "counter": "物理持续输出，离开领域",
+      "legendary": true
     }
   ],
   "monsters": [

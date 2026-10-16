@@ -32,7 +32,7 @@ assert(!b.fx.some(f=>f.type==='text'&&/^\d+$/.test(f.text)),'no duplicate legacy
 console.log('PASS: all 63 isolated skill demonstrations; immutable event birth; source/target provenance; field metadata; league isolation; exact health/shield damage text');
 const rehearsal=new Session(),leagueBefore=JSON.stringify(rehearsal.game);
 rehearsal.command('preview_battle');
-assert.equal(rehearsal.demoBattle.units.length,16);
+assert.equal(rehearsal.demoBattle.units.length,20);
 const key=rehearsal.snapshot().matchKey;
 rehearsal.command('speed',{value:.5});rehearsal.tick(1);
 assert.equal(rehearsal.demoBattle.t,.5,'half-speed rehearsal');
@@ -40,4 +40,4 @@ rehearsal.command('replay_preview');
 assert.equal(rehearsal.demoBattle.t,0);
 assert.notEqual(rehearsal.snapshot().matchKey,key,'replay creates fresh presentation context');
 assert.equal(JSON.stringify(rehearsal.game),leagueBefore);
-console.log('PASS: 16-unit rehearsal, half-speed, replay identity, preserved league');
+console.log('PASS: 20-unit rehearsal, half-speed, replay identity, preserved league');
