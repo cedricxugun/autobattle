@@ -19,8 +19,21 @@ func run() -> void:
 			for column in 6:
 				var center := board.projection(column,row)
 				check(board.cell_at(center)==Vector2i(column,row),"cell center inverse")
-				check(board.cell_at(center+Vector2.ONE*board.cell_size()*0.49)==Vector2i(column,row),"full visible tile belongs to same drop cell")
-		check(is_equal_approx(board.projection(1,0).distance_to(board.projection(0,0)),board.projection(0,1).distance_to(board.projection(0,0))),"square cells")
+				check(board.cell_at(board.projection(column+0.49,row+0.49))==Vector2i(column,row),"full visible tile belongs to same drop cell")
+		check(is_equal_approx(board.stage.tiles[0].get_aabb().size.x,board.stage.tiles[0].get_aabb().size.z),"3D tiles are square in world space")
+	check(is_zero_approx(board.stage.yaw),"default camera looks straight down the battle axis")
+	for zoom in [8.2,8.8,9.6]:
+		board.stage.zoom_size=zoom
+		board.stage._set_camera()
+		check(absf(board.projection(0,3).y-board.projection(5,3).y)<0.1,"ranks remain horizontal")
+		check(board.projection(2,7).y>board.projection(2,0).y,"friendly army is below opposing army")
+		for row in 8:
+			for col in 6:
+				check(board.cell_at(board.projection(col,row))==Vector2i(col,row),"camera zoom preserves ray/grid alignment")
+		for slot in 9:
+			check(board.stage.bench_at(board.stage.bench_screen(slot))==slot,"all nine world bench slots align")
+	board.stage.zoom_size=8.8
+	board.stage._set_camera()
 	var fx = board.effects_layer
 	var event := {"id":1,"born":0.0,"life":0.5,"ttl":0.5,"type":"impact","x":2,"y":3,"x2":2,"y2":3,"faction":"math"}
 	var packet := {"matchKey":"test","round":1,"phase":"result","board":{"time":0.0,"done":true,"units":[],"effects":[event],"zones":[]}}

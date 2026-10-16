@@ -26,6 +26,7 @@ var trailing_health := 1.0
 var previous_health := 1.0
 var health_delay := 0.0
 var accessory := Sprite2D.new()
+var render_3d_body := false
 
 func _ready() -> void:
 	add_child(sprite)
@@ -52,6 +53,8 @@ func _ready() -> void:
 	action_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	action_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(action_label)
+	name_label.visible=not render_3d_body
+	action_label.visible=not render_3d_body
 
 func update_unit(value: Dictionary, destination: Vector2) -> void:
 	state = value
@@ -99,8 +102,13 @@ func _process(delta: float) -> void:
 	var windup_age := visual_clock-float(state.get("attackWindupAt",-99))
 	var casting: bool = state.get("casting",false) and visual_clock < float(state.get("castEnd",-99))
 	var aim := Vector2(float(state.get("aimX",state.x))-float(state.x),float(state.get("aimY",state.y))-float(state.y))
+	if state.has("screenAimX"):
+		aim=Vector2(float(state.screenAimX),float(state.screenAimY))
 	if state.get("moving",false) and motion.length_squared() > 0.001:
 		aim = motion
+	if state.get("moving",false) and state.has("screenMoveX"):
+		var screen_move:=Vector2(float(state.screenMoveX),float(state.screenMoveY))
+		if screen_move.length_squared()>0.001:aim=screen_move
 	if aim.length_squared() < 0.02:
 		aim = target_position-position
 	if absf(aim.x) > 0.06:
@@ -196,7 +204,7 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	if state.is_empty():
+	if state.is_empty() or render_3d_body:
 		return
 	var color := Color("87d4b0") if int(state.get("team", 0)) == 0 else Color("db978b")
 	draw_set_transform(Vector2.ZERO, 0, Vector2(1, 0.35))

@@ -1,0 +1,20 @@
+正向学术嘉年华竞技场
+
+实际实现
+真实3D方形格地板、薄台基、近端九席备战台、三维角色位置与碰撞体；默认偏航0度，俯角约36.6度，我方在下、敌方在上。取消游戏中的自由旋转，允许有限滚轮缩放。
+远景建筑使用内置imagegen生成的原创画面，注册到固定镜头的3D景片；并非整座可自由环绕的3D城镇。角色是立于3D空间的序列帧精灵，非完整骨骼模型。
+地面持续技能通过独立透明视口投到真实地面，飞行道具及飘字按三维位置投影。
+选择角色支持身体碰撞和脚部优先；放置以地面格为准，防止前排身形抢走后排格子落点。
+
+参考与判断（独立实现，没有复制参考游戏素材）
+Riot 官方制作说明：主题概念先行；装饰不遮挡操作；环境有远景与前景层次；静态场景和动态反馈协作。
+https://teamfighttactics.leagueoflegends.com/en-us/news/dev/bringing-the-festival-to-life/
+https://teamfighttactics.leagueoflegends.com/en-us/news/dev/tft-reckoning-arenas-from-concept-to-life/
+Godot 开源自走棋：检查了独立拖拽组件和单位格占用管理；该仓库当前组件使用2D，不能把其代码当作3D镜头实现。
+https://github.com/guladam/godot_autobattler_reference
+Godot 3D MapCameraController：检查了相机投射射线、地面求交、限制缩放、将旋转作为可关闭独立功能的做法。
+https://github.com/VasilevVitalii/Godot-3D-MapCameraController
+本游戏采用固定竞技场视角是本项目的设计决定，不声称这些产品采用相同镜头参数。
+
+验证
+48格的中心及边界反投影；不同窗口尺寸与缩放；横行保持水平；9个备战位投影与命中一致；完整鼠标拖拽交换、上下场、取消；特效生命周期和暂停；原生GPU截图。

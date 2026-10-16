@@ -26,11 +26,11 @@ static func draw(canvas: Node2D, e: Dictionary, age: float, p: Vector2, q: Vecto
 				return
 	for u in units:
 		if str(u.uid)==str(e.get("targetUid","")) and e.type in ["gag_magnet","gag_delivery","gag_romance","gag_letters","gag_gavel","gag_house","gag_soda","gag_verse","gag_midnight"]:
-			q=canvas.board.projection(float(u.x),float(u.y))-Vector2(0,cell*0.16)
+			q=canvas.board.effect_projection(float(u.x),float(u.y))
 			if e.type=="gag_midnight" and (not u.get("alive",true) or not "foreshadow" in u.get("buffs",[])):
 				return
 		if str(u.uid)==str(e.get("anchorUid","")) and e.type in ["gag_romance","gag_letters"]:
-			p=canvas.board.projection(float(u.x),float(u.y))-Vector2(0,cell*0.16)
+			p=canvas.board.effect_projection(float(u.x),float(u.y))
 	match str(e.type):
 		"gag_magnet":
 			prop(canvas,"magnet",p-Vector2(0,cell*0.48),cell*0.58,sin(age*24)*0.12,fade)

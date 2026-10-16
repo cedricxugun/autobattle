@@ -36,16 +36,9 @@ func _ready() -> void:
 	soft.fill = GradientTexture2D.FILL_RADIAL
 	soft.fill_from = Vector2(0.5, 0.5)
 	soft.fill_to = Vector2(1, 0.5)
-	field_layer = load("res://scripts/fields.gd").new()
-	field_layer.manager = self
-	field_clip = Control.new()
-	field_clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	field_clip.clip_contents = true
-	board.add_child(field_clip)
-	field_clip.add_child(field_layer)
 	hud = load("res://scripts/combat_hud.gd").new()
 	hud.manager = self
-	hud.z_index = 110
+	hud.z_index = 350
 	board.add_child(hud)
 	board.unit_layer.z_index = 5
 	for i in 5:
@@ -175,16 +168,10 @@ func _process(delta: float) -> void:
 	active = active.filter(func(e): return clock - float(e.born) < float(e.life) + (0.18 if e.type in ["bolt", "orb"] else 0.0))
 	numbers = numbers.filter(func(e): return clock - float(e.born) < float(e.life))
 	notices = notices.filter(func(e): return clock - float(e.born) < 4.0)
-	var origin := board.grid_origin()
-	var grid_size := Vector2(6,8)*board.cell_size()
-	var clip: Control = get_parent()
-	clip.position = origin-Vector2(7,10)
-	clip.size = grid_size+Vector2(14,20)
-	position = -clip.position
-	field_clip.position = origin
-	field_clip.size = grid_size
-	field_layer.position = -origin
-	field_layer.queue_redraw()
+	var clip: Control=get_parent()
+	clip.position=Vector2.ZERO
+	clip.size=board.size
+	position=Vector2.ZERO
 	hud.queue_redraw()
 	queue_redraw()
 
@@ -207,14 +194,14 @@ func _draw() -> void:
 		var age := maxf(0, clock - float(e.born))
 		var t := clampf(age / maxf(0.05, float(e.life)), 0, 1)
 		var fade := pow(1.0 - t, 1.2)
-		var p := board.projection(float(e.x), float(e.y)) - Vector2(0, cell * 0.16)
-		var q := board.projection(float(e.x2), float(e.y2)) - Vector2(0, cell * 0.16)
+		var p := board.effect_projection(float(e.x),float(e.y))
+		var q := board.effect_projection(float(e.x2),float(e.y2))
 		var end_unit := unit(str(e.get("targetUid","")))
 		var anchor := unit(str(e.get("anchorUid","")))
 		if e.type in ["bolt","orb","beam","chain","link","vine","charge"] and not end_unit.is_empty():
-			q = board.projection(end_unit.x,end_unit.y)-Vector2(0,cell*0.16)
+			q = board.effect_projection(end_unit.x,end_unit.y)
 		if e.type in ["beam","chain","link","vine","charge"] and not anchor.is_empty():
-			p = board.projection(anchor.x,anchor.y)-Vector2(0,cell*0.16)
+			p = board.effect_projection(anchor.x,anchor.y)
 		var color := ArtLibrary.faction_color(str(e.get("faction", "math")))
 		if str(e.type).begins_with("gag_"):
 			GagRenderer.draw(self,e,age,p,q,cell,font,data.get("units",[]))
@@ -319,48 +306,16 @@ func _draw() -> void:
 
 
 func _draw_focus(canvas: CanvasItem) -> void:
+	if board.selected_uid.is_empty() or board.drag_started:return
 	var focused := unit(board.selected_uid)
-	if focused.is_empty():
-		for u in data.get("units",[]):
-			if int(u.team)==0 and u.get("alive",true):
-				focused = u
-				break
-	if focused.is_empty() or board.grid_origin().x < 185:
-		return
-	var d := ArtLibrary.character(int(focused.id))
-	var x := 20.0
-	var width := board.grid_origin().x-48
-	canvas.draw_rect(Rect2(10,20,width+20,board.size.y-40),Color(0.035,0.075,0.10,0.82))
-	canvas.draw_string(font,Vector2(x,43),"焦点棋子 · 点击格子切换",HORIZONTAL_ALIGNMENT_LEFT,width,12,Color("9cbcbf"))
-	var portrait := ArtLibrary.actor_frame(int(focused.id),int(focused.star),0)
-	canvas.draw_texture_rect(portrait,Rect2(x+10,57,110,110),false)
-	canvas.draw_string(font,Vector2(x,186),str(d.name)+" "+"★".repeat(int(focused.star)),HORIZONTAL_ALIGNMENT_LEFT,width,18,ArtLibrary.faction_color(str(d.faction)))
-	canvas.draw_string(font,Vector2(x,211),"生命 %d / %d" % [int(focused.hp),int(focused.maxhp)],HORIZONTAL_ALIGNMENT_LEFT,width,13,Color("b7d9c7"))
-	canvas.draw_string(font,Vector2(x,233),"护盾 %d" % int(focused.get("shield",0)),HORIZONTAL_ALIGNMENT_LEFT,width,13,Color("b7c9df"))
-	var target := unit(str(focused.get("targetUid","")))
-	canvas.draw_string(font,Vector2(x,263),"当前朝向 → "+(str(ArtLibrary.character(int(target.id)).name) if not target.is_empty() else "等待目标"),HORIZONTAL_ALIGNMENT_LEFT,width,12,Color("e5bc9d"))
-	canvas.draw_string(font,Vector2(x,298),str(d.skill),HORIZONTAL_ALIGNMENT_LEFT,width,16,Color("e4d3a5"))
-	var description := str(d.desc)
-	var columns := maxi(12,int(width/12))
-	for i in ceili(float(description.length())/columns):
-		canvas.draw_string(font,Vector2(x,322+i*19),description.substr(i*columns,columns),HORIZONTAL_ALIGNMENT_LEFT,width,12,Color("a9c2c2"))
-	var foot := 344.0+ceili(float(description.length())/columns)*19
-	if board.size.y>620 and d.has("concept"):
-		canvas.draw_string(font,Vector2(x,foot),"灵感 · "+str(d.concept),HORIZONTAL_ALIGNMENT_LEFT,width,12,Color("e7c990"))
-		var fact := str(d.get("fact",""))
-		for i in ceili(float(fact.length())/columns):
-			canvas.draw_string(font,Vector2(x,foot+24+i*18),fact.substr(i*columns,columns),HORIZONTAL_ALIGNMENT_LEFT,width,11,Color("b4c6c0"))
-		foot+=42+ceili(float(fact.length())/columns)*18
-		if not comic_line.is_empty() and clock-float(comic_line.born)<6:
-			var joke := str(comic_line.text)
-			var speaker := str(ArtLibrary.character(int(comic_line.actor)).name)
-			if not joke.begins_with(speaker):
-				joke = speaker+"："+joke
-			for i in ceili(float(joke.length())/columns):
-				canvas.draw_string(font,Vector2(x,foot+i*19),joke.substr(i*columns,columns),HORIZONTAL_ALIGNMENT_LEFT,width,12,Color("e8c3a0"))
-	if not target.is_empty() and focused.get("alive",true):
-		var p := board.projection(float(target.x),float(target.y))
-		canvas.draw_arc(p,board.cell_size()*0.43,0,TAU,40,Color("f1bd8c",0.7),1.5,true)
+	if focused.is_empty() and board.stage.actors.has(board.selected_uid):focused=board.stage.actors[board.selected_uid].unit
+	if focused.is_empty():return
+	var d:=ArtLibrary.character(int(focused.id))
+	canvas.draw_rect(Rect2(12,14,248,91),Color(0.035,0.065,0.10,0.86))
+	canvas.draw_texture_rect(ArtLibrary.actor_frame(int(focused.id),int(focused.star),0),Rect2(18,19,72,72),false)
+	canvas.draw_string(font,Vector2(98,39),str(d.name)+" "+"★".repeat(int(focused.star)),HORIZONTAL_ALIGNMENT_LEFT,155,15,ArtLibrary.faction_color(str(d.faction)))
+	canvas.draw_string(font,Vector2(98,62),str(d.skill),HORIZONTAL_ALIGNMENT_LEFT,155,12,Color("e5d4b1"))
+	canvas.draw_string(font,Vector2(98,84),"右键查看技能与知识",HORIZONTAL_ALIGNMENT_LEFT,155,11,Color("b4c5c6"))
 
 func _draw_numbers() -> void:
 	var occupied: Array[Rect2] = []
@@ -386,7 +341,7 @@ func _draw_numbers() -> void:
 		var alpha := minf(1, (1-t)*3.5)
 		var font_size := int((22 if big else 12 if kind=="absorbed" or amount<25 else 15 if kind != "text" else 12) * (1 + maxf(0,1-age/0.12)*0.22))
 		var extent := font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size)
-		point.x = clampf(point.x,board.grid_origin().x+2,board.grid_origin().x+board.cell_size()*6-extent.x-2)
+		point.x = clampf(point.x,board.grid_origin().x+2,board.grid_bounds().end.x-extent.x-2)
 		var rect := Rect2(point-Vector2(2,extent.y),extent+Vector2(4,4))
 		for attempt in 7:
 			if not occupied.any(func(other): return other.intersects(rect)):
@@ -398,25 +353,15 @@ func _draw_numbers() -> void:
 		draw_string(font, point, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(color,alpha))
 
 func _draw_notices(canvas: CanvasItem) -> void:
-	var start := board.grid_origin().x + board.cell_size()*6 + 25
-	if board.size.x - start < 135:
-		return
-	canvas.draw_rect(Rect2(start-9,20,board.size.x-start,board.size.y-40),Color(0.035,0.075,0.10,0.82))
-	canvas.draw_string(font, Vector2(start,40), "战况 · 谁对谁生效", HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("ddc795"))
-	var y := 70.0
-	for n in notices:
-		var age := clock-float(n.born)
-		var alpha := minf(1,(4-age)*2)
-		var color := ArtLibrary.faction_color(str(n.faction))
-		canvas.draw_string(font,Vector2(start,y),str(n.sourceName),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color(color,alpha))
-		canvas.draw_string(font,Vector2(start,y+20),str(n.skillName),HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("e5e4d7",alpha))
-		var target_text := " → " + ("、".join(n.target_names.slice(0,2)) if not n.target_names.is_empty() else "准备命中 · "+str(n.pending_target) if not str(n.get("pending_target","")).is_empty() else "作用范围见地面")
-		canvas.draw_string(font,Vector2(start,y+39),target_text,HORIZONTAL_ALIGNMENT_LEFT,board.size.x-start-8,11,Color("a7c3c5",alpha))
-		canvas.draw_string(font,Vector2(start,y+55)," / ".join(n.operations),HORIZONTAL_ALIGNMENT_LEFT,board.size.x-start-8,10,Color(color,alpha*0.8))
-		y += 79
-	var legend_y := maxf(y+10,board.size.y-78)
-	canvas.draw_string(font,Vector2(start,legend_y),"金色 物理   蓝色 法术",HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("a9c0c2"))
-	canvas.draw_string(font,Vector2(start,legend_y+18),"绿色 治疗   灰紫 护盾吸收",HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("a9c0c2"))
+	if notices.is_empty():return
+	var y:=board.size.y-72
+	var visible_notices:=notices.slice(0,2)
+	canvas.draw_rect(Rect2(12,y-17,390,visible_notices.size()*26+10),Color(0.025,0.05,0.085,0.76))
+	for n in visible_notices:
+		var target: String="、".join(n.target_names.slice(0,1)) if not n.target_names.is_empty() else str(n.get("pending_target","范围内目标"))
+		var text:=str(n.sourceName)+" · "+str(n.skillName)+" → "+target
+		canvas.draw_string(font,Vector2(20,y),text,HORIZONTAL_ALIGNMENT_LEFT,374,12,ArtLibrary.faction_color(str(n.faction)))
+		y+=26
 
 func _play_impact(school: String, cast: bool) -> void:
 	if not sound_enabled or clock-last_sound < 0.13:

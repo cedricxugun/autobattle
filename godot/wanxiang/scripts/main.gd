@@ -194,6 +194,7 @@ func _build_interface() -> void:
 	controls.add_child(pause_button)
 	speed_button = button("1×", func(): _send("speed", {"value": [0.5,1.0,2.0,3.0][([0.5,1.0,2.0,3.0].find(float(state.get("speed",1)))+1)%4]}))
 	controls.add_child(speed_button)
+	controls.add_child(button("视角复位",func(): board.stage.yaw=0.0; board.stage.zoom_size=8.8; board.stage._set_camera()))
 	replay_button = button("重播演示",func(): _send("replay_preview"))
 	replay_button.visible = false
 	controls.add_child(replay_button)
@@ -207,6 +208,7 @@ func _build_interface() -> void:
 	board.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	board.custom_minimum_size = Vector2(600, 360)
 	board.action.connect(_send)
+	board.scenery_hint.connect(func(message): _toast(message); toast_time=5.0)
 	board.selection_changed.connect(func(uid):
 		selected_uid = uid
 		popup.hide()
@@ -242,6 +244,7 @@ func _build_interface() -> void:
 	bench_row = HBoxContainer.new()
 	bench_row.custom_minimum_size.y = 63
 	dock_box.add_child(bench_row)
+	bench_row.visible=false
 	item_row = HBoxContainer.new()
 	item_row.custom_minimum_size.y = 32
 	dock_box.add_child(item_row)
@@ -715,7 +718,7 @@ func _process(delta: float) -> void:
 		if qa_ticks == 5:
 			_send("new", {"difficulty": "hard"})
 		elif qa_ticks == 20:
-			for slot in [0, 1, 2, 3, 4]:
+			for slot in [0, 1, 3, 2]:
 				_send("buy", {"slot": slot})
 		elif qa_ticks == 40:
 			_send("refresh")
@@ -731,6 +734,8 @@ func _process(delta: float) -> void:
 			toast.hide()
 			await RenderingServer.frame_post_draw
 			get_viewport().get_texture().get_image().save_png(qa_capture)
+			if board.stage!=null and board.stage.field_view!=null:
+				board.stage.field_view.get_texture().get_image().save_png(qa_capture.get_basename()+"-fields.png")
 			print("CAPTURE_SAVED " + qa_capture)
 			print("RENDER_FPS " + str(Engine.get_frames_per_second()))
 			get_tree().quit()

@@ -42,6 +42,7 @@ static func texture_at(path: String) -> Texture2D:
 	var image := Image.load_from_file(ProjectSettings.globalize_path(path))
 	if image == null:
 		return null
+	image.generate_mipmaps()
 	var texture := ImageTexture.create_from_image(image)
 	textures[path] = texture
 	return texture

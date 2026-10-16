@@ -1,0 +1,30 @@
+{
+  "tool": "Built-in image_gen",
+  "environment": {
+    "asset": "wanxiang/assets/arena-carnival-v2.png",
+    "reference": "wanxiang/assets/arena-carnival-v1.png",
+    "prompt": "Create an original premium game environment for a playful academic fantasy auto-battler. Reference image supplies ONLY the hand-painted polished art style, warm lantern lighting, midnight teal and brass palette and whimsical science/storybook carnival theme. REDESIGN the composition. Landscape 3:2. Fixed gameplay camera, centered above the near edge looking directly forward and down at 36 degrees, ZERO horizontal rotation, ZERO roll. Every across-court edge is HORIZONTAL, every left/right edge recedes symmetrically. NOT an isometric diamond board. The center 60 percent width and from 17 to 86 percent image height must remain EMPTY flat dark desaturated teal slate paving, quiet and low contrast, for a real 3D board that will be placed there later. No board, no chess tiles, no UI, no characters, no words or symbols. At upper left edge a beautiful compact brass observatory with a whimsical red horseshoe magnet instrument, upper right edge a teal luminous soda alchemy pavilion. Keep these buildings strictly in outermost left/right 20% of frame, with softly illuminated detailed silhouettes. Lower left edge a tiny red velvet fairy-tale theatre integrated in rose-covered stone architecture, lower right edge a blue roof postal booth with sleepy stone lion. Both are peripheral, no encroachment on central area. Across back at top 12% distant charming academy skyline, canal and warm window lights, subtle haze, not black emptiness. At bottom center keep a wide unobstructed low stone apron for a row of playable bench pieces. Buildings grounded with natural contact shadows, coherent shared moonlight and amber lanterns, painterly material richness without noisy outlines, stylized high quality 3D concept painting, original environment not copied from any existing game. NO floating props across the gameplay area, no overhead cables across center. The paving's horizontal joints must be level, the composition should feel like a symmetric head-on arena framed by lively asymmetrical architecture."
+  },
+  "propConcept": {
+    "asset": "wanxiang/assets/concepts/orrery-v1.png",
+    "purpose": "Original armillary sphere on navy book pedestal, brass rings, turquoise planet, amber lantern; conceptual art direction."
+  },
+  "tripo": {
+    "route": "Tripo Studio website",
+    "model": "H3.1",
+    "budgetApproved": 55,
+    "input": "A premium stylized fantasy academic carnival environment prop: a brass armillary observatory on a pedestal of three thick midnight blue and dark teal leather books with ornate gold corners. Thick interlocking orbital rings enclose one large turquoise planet, two attached copper moons. Small red horseshoe magnet on side, amber lantern on front. All parts connected, broad sturdy silhouette, hand-painted game textures, softly worn brass, navy enamel. Full object only, no ground, no scenery, no words. Suitable for a game arena corner, detailed high-quality playful fantasy style.",
+    "status": "generated; web GLB export pending",
+    "taskId": "30713985-e66c-45f4-b263-bd414ff5bee9",
+    "creditsSpent": 55
+  },
+  "tripoImage": {
+    "route": "Tripo Studio website",
+    "model": "H3.1",
+    "input": "wanxiang/assets/concepts/orrery-v1.png",
+    "taskId": "851267f7-c0c8-4338-9c5f-01e17dac76d7",
+    "creditsSpent": 55,
+    "status": "generated; web GLB export pending",
+    "url": "https://studio.tripo3d.ai/zh/workspace/generate/ornate-brass-armillary-globe-atop-a-stack-of-blue-books-with-a-lantern-851267f7-c0c8-4338-9c5f-01e17dac76d7"
+  }
+}
