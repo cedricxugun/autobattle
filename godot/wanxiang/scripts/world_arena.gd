@@ -24,6 +24,7 @@ var field_surface: MeshInstance3D
 var surface_texture: NoiseTexture2D
 var surface_normal: NoiseTexture2D
 var material_cache: Dictionary = {}
+var world_effects: Node3D
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -49,14 +50,14 @@ func _ready() -> void:
 	sky.background_color = Color("101c34")
 	sky.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	sky.ambient_light_color = Color("9cb6d4")
-	sky.ambient_light_energy = 0.68
+	sky.ambient_light_energy = 0.55
 	sky.tonemap_mode = Environment.TONE_MAPPER_LINEAR
 	environment.environment = sky
 	world.add_child(environment)
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-54,-35,0)
 	sun.light_color = Color("ffe4bc")
-	sun.light_energy = 0.85
+	sun.light_energy = 0.62
 	sun.shadow_enabled = true
 	world.add_child(sun)
 	var noise:=FastNoiseLite.new()
@@ -244,6 +245,7 @@ func _light_post(at: Vector3, brass:Material, stone:Material) -> void:
 	light.light_energy=0.6
 	light.omni_range=3.0
 	world.add_child(light)
+	light.shadow_enabled=false
 
 func _resize_view() -> void:
 	_set_camera()
@@ -341,6 +343,10 @@ func highlight(point: Vector2, enabled: bool) -> void:
 		marker.visible=true
 
 func attach_fields(source: Node2D) -> void:
+	world_effects=load("res://scripts/world_effects.gd").new()
+	world_effects.arena=self
+	world_effects.source=source
+	world.add_child(world_effects)
 	field_view=SubViewport.new()
 	field_view.size=Vector2i(768,1024)
 	field_view.transparent_bg=true

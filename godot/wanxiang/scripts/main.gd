@@ -46,6 +46,8 @@ var audio := AudioStreamPlayer.new()
 var inspect_position := Vector2.ZERO
 var qa_capture := ""
 var qa_scene_angle := 0.0
+var qa_sequence_frames: Array = []
+var qa_recording := false
 var qa_ticks := 0
 var codex: EvolutionCodex
 var qa_codex := false
@@ -60,7 +62,7 @@ var qa_capture_cue := ""
 var qa_capturing := false
 
 func _ready() -> void:
-	DisplayServer.window_set_title("万象棋局 · 3D庭院 0.4 预览")
+	DisplayServer.window_set_title("万象棋局 · 战斗演出 0.5 预览")
 	get_window().title = "万象棋局 · 知识嘉年华"
 	get_window().min_size = Vector2i(1180, 740)
 	var font := SystemFont.new()
@@ -160,7 +162,7 @@ func _build_interface() -> void:
 	header.add_theme_constant_override("separation", 15)
 	root.add_child(header)
 	header.add_child(label("万象棋局", 27, Color("e5cd98")))
-	header.add_child(label("庭院 · 0.4",11,Color("8ba8a6")))
+	header.add_child(label("演出 · 0.5",11,Color("8ba8a6")))
 	round_label = label("联赛连接中", 15)
 	round_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -746,10 +748,18 @@ func _process(delta: float) -> void:
 				board.stage.field_view.get_texture().get_image().save_png(qa_capture.get_basename()+"-fields.png")
 			print("CAPTURE_SAVED " + qa_capture)
 			print("RENDER_FPS " + str(Engine.get_frames_per_second()))
+			if not qa_sequence.is_empty():
+				while qa_recording:await get_tree().process_frame
+				var recording:=FileAccess.open(qa_sequence.path_join("frames.json"),FileAccess.WRITE)
+				recording.store_string(JSON.stringify(qa_sequence_frames))
 			get_tree().quit()
-		if not qa_sequence.is_empty() and qa_ticks >= 60 and qa_ticks < 300 and qa_ticks % 6 == 0:
+		if not qa_sequence.is_empty() and qa_ticks >= 60 and qa_ticks < 300 and qa_ticks % 2 == 0 and not qa_recording:
+			qa_recording=true
+			var frame_name:="frame-%03d.jpg"%qa_sequence_frames.size()
 			await RenderingServer.frame_post_draw
-			get_viewport().get_texture().get_image().save_png(qa_sequence.path_join("frame-%03d.png" % int((qa_ticks-60)/6)))
+			qa_sequence_frames.append({"file":frame_name,"time":Time.get_ticks_msec()/1000.0})
+			get_viewport().get_texture().get_image().save_jpg(qa_sequence.path_join(frame_name),0.90)
+			qa_recording=false
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and popup.visible:

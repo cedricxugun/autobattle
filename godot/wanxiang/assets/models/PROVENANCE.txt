@@ -14,3 +14,8 @@ Observatory: original concept ../concepts/observatory-v1.png; Tripo Studio H3.1 
 Storybook theatre: original concept ../concepts/storybook-pavilion-v1.png; Tripo Studio H3.1 image-to-model task db075e81-acc2-47b5-a302-a3a33b824e0a, 55 credits. Game asset 173966 triangles / 11044864 bytes.
 Both optimized locally with glTF Transform 4.5.1 simplify --ratio 0.035 --error 0.004. Original textures preserved.
 This update spent 110 website credits; balance 2910 -> 2800. No paid retopology or API generation was submitted. GLB/FBX export retries did not change the balance.
+
+Battle Presentation 0.5 additions
+magnet-car: original concept ../concepts/magnet-car-v1.png, Tripo Studio H3.1 image-to-model 5b153edf-e7fb-4b42-a4f2-17778d389e60, 55 credits. Game mesh 172302 triangles / 9155228 bytes.
+verdict-gavel: original concept ../concepts/verdict-gavel-v1.png, Tripo Studio H3.1 image-to-model 820f3bb6-f4e8-4fed-a596-5b3027a8de22, 55 credits. Game mesh 193698 triangles / 10099052 bytes.
+Total website generation: 110 credits this update. No API generation. Local mesh simplification preserves original textures.

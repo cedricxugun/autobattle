@@ -11,6 +11,8 @@ void fragment(){
 	vec3 paint=texture(stone_texture,world_position.yz/3.3).rgb*weight.x
 		+texture(stone_texture,world_position.xz/3.3).rgb*weight.y
 		+texture(stone_texture,world_position.xy/3.3).rgb*weight.z;
+	float quiet_center=1.0-smoothstep(2.5,6.5,length(world_position.xz/vec2(1.0,1.2)));
+	paint=mix(paint,vec3(0.37,0.40,0.42),quiet_center*0.52*weight.y);
 	ALBEDO=paint*stone_tint.rgb;
 	ROUGHNESS=0.91;
 	SPECULAR=0.12;

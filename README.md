@@ -6,7 +6,13 @@
 
 Windows 64 位便携包见 [Releases](https://github.com/cedricxugun/autobattle/releases)。解压整个目录后运行 `万象棋局.exe`，无需额外安装 Godot 或 Node。请保留同目录的 `game` 和 `runtime` 文件夹。
 
-![透视镜头下的实体3D庭院](docs/images/courtyard-full.png)
+![0.5 战斗实机](docs/images/battle-0.5.png)
+
+[观看小车与法槌技能实录（无声）](docs/video/skills-0.5.mp4)
+
+## 0.5 演出更新
+
+小车与法槌使用真实3D网格，加入飞行/挥落、接地回弹与命中碎片。普通命中按学科使用不同3D碎片；角色接触阴影和落子动作已调整。混战文字默认简化，按住Alt查看详情。角色仍采用序列帧，未声称54个技能全部重制。
 
 ## 当前内容
 

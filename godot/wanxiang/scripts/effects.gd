@@ -143,7 +143,7 @@ func _add_number(e: Dictionary) -> void:
 		e.amount = int(text.trim_prefix("+"))
 	if e.type == "number" or kind == "heal":
 		for prior in numbers:
-			if prior.get("targetUid") == e.get("targetUid") and prior.kind == kind and clock - float(prior.born) < 0.12:
+			if prior.get("targetUid") == e.get("targetUid") and prior.kind == kind and clock - float(prior.born) < 0.20:
 				prior.amount += int(e.amount)
 				return
 	var same_target := numbers.filter(func(n): return n.get("targetUid") == e.get("targetUid") and n.kind != "text")
@@ -197,7 +197,10 @@ func stroke(points: PackedVector2Array, color: Color, width: float, alpha: float
 func _draw() -> void:
 	if board == null or soft == null:
 		return
+	var crowded:bool=data.get("units",[]).filter(func(u):return u.get("alive",true)).size()>8
 	for e in active:
+		if e.type=="gag_signature" and crowded and str(e.get("sourceUid",""))!=board.selected_uid:continue
+		if board.stage.world_effects!=null and board.stage.world_effects.handles(e):continue
 		var age := maxf(0, clock - float(e.born))
 		var t := clampf(age / maxf(0.05, float(e.life)), 0, 1)
 		var fade := pow(1.0 - t, 1.2)
@@ -329,12 +332,17 @@ func _draw_focus(canvas: CanvasItem) -> void:
 
 func _draw_numbers() -> void:
 	var occupied: Array[Rect2] = []
+	var dense:bool=data.get("units",[]).filter(func(u):return u.get("alive",true)).size()>8
 	for e in numbers:
 		var age := maxf(0, clock - float(e.born))
 		var t := clampf(age / float(e.life), 0, 1)
 		var kind := str(e.kind)
 		var amount := int(e.get("amount", 0))
 		var text := str(e.get("text", ""))
+		var focused:bool=str(e.get("targetUid",""))==board.selected_uid or str(e.get("sourceUid",""))==board.selected_uid
+		if dense and not focused and not Input.is_key_pressed(KEY_ALT):
+			if kind=="absorbed" and amount<25:continue
+			if kind=="text" and not ["眩晕","沉默","禁足","闪避","免疫","暴击","净化"].any(func(word):return text.contains(word)):continue
 		var color := Color("f1d8aa")
 		if kind == "magic":
 			color = Color("91d9ff")

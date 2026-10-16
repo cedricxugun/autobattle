@@ -7,6 +7,7 @@ func _process(_delta:float) -> void:
 	queue_redraw()
 func _draw() -> void:
 	if board.stage==null:return
+	var live_count:int=board.stage.actors.values().filter(func(a):return a.unit.get("alive",true)).size()
 	for actor in board.stage.actors.values():
 		var u:Dictionary=actor.unit
 		if not u.get("alive",true):continue
@@ -16,8 +17,10 @@ func _draw() -> void:
 		var color:=Color("a9dbc6") if int(u.team)==0 else Color("e2a295")
 		var title:=name+" "+"★".repeat(int(u.star)) if u.get("bench",false) else name
 		var width:=font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,10).x
-		draw_string_outline(font,foot+Vector2(-width/2,12),title,HORIZONTAL_ALIGNMENT_LEFT,-1,10,3,Color("0a1824"))
-		draw_string(font,foot+Vector2(-width/2,12),title,HORIZONTAL_ALIGNMENT_LEFT,-1,10,color)
+		var show_name:bool=board.snapshot.get("phase")!="battle" or live_count<=8 or str(u.uid)==board.selected_uid or Input.is_key_pressed(KEY_ALT)
+		if show_name:
+			draw_string_outline(font,foot+Vector2(-width/2,12),title,HORIZONTAL_ALIGNMENT_LEFT,-1,10,3,Color("0a1824"))
+			draw_string(font,foot+Vector2(-width/2,12),title,HORIZONTAL_ALIGNMENT_LEFT,-1,10,color)
 		if u.get("bench",false):continue
 		var hp:=clampf(float(u.hp)/maxf(1,float(u.maxhp)),0,1)
 		draw_rect(Rect2(point-Vector2(23,2),Vector2(46,6)),Color("101e29"))
@@ -41,6 +44,6 @@ func _draw() -> void:
 			var status:=" ".join(tags)
 			draw_string_outline(font,point+Vector2(26,4),status,HORIZONTAL_ALIGNMENT_LEFT,-1,10,3,Color("0b1721"))
 			draw_string(font,point+Vector2(26,4),status,HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color("efd99f"))
-		if actor.body.action_label.text!="" and (u.get("casting",false) or str(u.uid)==board.selected_uid or board.stage.actors.size()<=8):
+		if actor.body.action_label.text!="" and (u.get("casting",false) or str(u.uid)==board.selected_uid or live_count<=8):
 			draw_string_outline(font,point+Vector2(-35,-20),actor.body.action_label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,10,3,Color("111e28"))
 			draw_string(font,point+Vector2(-35,-20),actor.body.action_label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color("f0dfac"))

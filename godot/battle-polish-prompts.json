@@ -1,0 +1,37 @@
+{
+  "tool": "built-in imagegen",
+  "concepts": [
+    {
+      "name": "magnet-car-v1",
+      "prompt": "Original premium stylized 3D fantasy game prop, one whimsical small vintage toy automobile for a magnetic science spell. Compact rounded teal-green metal body, ivory cream fenders, warm aged brass grille and trim, four chunky black rubber tires with brass hubs, round warm headlights, short open cockpit with brown leather seat, small brass hood ornament. Friendly funny silhouette, intentionally toy-like squat proportions but solid physically coherent 3D construction. Whole car fully visible, three quarter front view with visible front and left side, neutral soft studio lighting, painted material colors, subtle wear, broad readable shapes. Plain light gray background, no floor, no cast shadow outside object, no text, no logos, no characters, no scenery. Designed for image-to-3D conversion and falling onto an academic auto-battler board. Thick sturdy details, all parts connected."
+    },
+    {
+      "name": "verdict-gavel-v1",
+      "prompt": "Original premium stylized 3D fantasy game prop for an academic auto-battler: a single imposing but comical judge's gavel, thick deep mahogany cylindrical double-ended hammer head with carved simple geometric grooves and aged brass end caps, navy blue leather wrapped sturdy handle, small golden scales emblem embossed on the head. Bold readable silhouette, elegant hand-painted fantasy game material, rounded substantial bevels, no tiny fragile parts. The handle extends diagonally down to lower right, fully visible from tip to hammer head. Entire hammer in a three-quarter view showing head, end cap and handle. One connected isolated object, no base or sound block, no floating pieces, no ground, no cast shadow, no letters or text. Plain light grey background, soft neutral studio lighting, no motion blur. Image-to-3D production concept, consistent teal/navy/aged gold academic carnival art direction."
+    }
+  ],
+  "tripoRoute": "Website only",
+  "models": [
+    {
+      "name": "magnet-car",
+      "taskId": "5b153edf-e7fb-4b42-a4f2-17778d389e60",
+      "model": "H3.1",
+      "credits": 55,
+      "asset": "wanxiang/assets/models/magnet-car.glb",
+      "bytes": 9155228,
+      "triangles": 172302,
+      "optimization": "glTF Transform 4.5.1 simplify --ratio 0.025 --error 0.004"
+    },
+    {
+      "name": "verdict-gavel",
+      "taskId": "820f3bb6-f4e8-4fed-a596-5b3027a8de22",
+      "model": "H3.1",
+      "credits": 55,
+      "asset": "wanxiang/assets/models/verdict-gavel.glb",
+      "bytes": 10099052,
+      "triangles": 193698,
+      "optimization": "glTF Transform 4.5.1 simplify --ratio 0.025 --error 0.004"
+    }
+  ],
+  "totalCredits": 110
+}

@@ -10,6 +10,8 @@ var target_position := Vector3.ZERO
 var collision := StaticBody3D.new()
 var initialized := false
 var ring: MeshInstance3D
+var contact_shadow: MeshInstance3D
+var placement_age := 1.0
 
 func _ready() -> void:
 	add_child(hidden_canvas)
@@ -23,6 +25,7 @@ func _ready() -> void:
 	picture.alpha_scissor_threshold=0.08
 	picture.position.y=0.71
 	picture.texture_filter=BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	picture.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(picture)
 	accessory.billboard=BaseMaterial3D.BILLBOARD_FIXED_Y
 	accessory.alpha_cut=SpriteBase3D.ALPHA_CUT_DISCARD
@@ -45,13 +48,19 @@ func _ready() -> void:
 	torus.ring_segments=8
 	ring=arena.mesh_node(torus,Vector3(0,0.035,0),arena.material(Color("efd28d"),0.3,0.5),self)
 	ring.visible=false
-	arena.cylinder(Vector3(0,0.01,0),0.29,0.012,arena.material(Color(0.02,0.035,0.05,0.45)),self)
+	var shadow_mesh:=PlaneMesh.new()
+	shadow_mesh.size=Vector2(0.85,0.65)
+	var shadow_mat:=ShaderMaterial.new()
+	shadow_mat.shader=preload("res://shaders/contact_shadow.gdshader")
+	contact_shadow=arena.mesh_node(shadow_mesh,Vector3(0,0.015,0),shadow_mat,self)
+	contact_shadow.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 func update_unit(value: Dictionary, destination: Vector3) -> void:
 	var old := target_position
 	unit=value
 	target_position=destination
 	if not initialized or arena.board.snapshot.get("phase")=="prepare":
+		if initialized and old.distance_to(destination)>0.1:placement_age=0.0
 		position=destination
 		old=destination
 		initialized=true
@@ -76,6 +85,7 @@ func _process(delta: float) -> void:
 	body.visual_clock=arena.board.effects_layer.clock
 	body.time_scale=0 if arena.board.snapshot.get("paused",false) else float(arena.board.snapshot.get("speed",1))
 	body.selected=str(unit.get("uid",""))==arena.board.selected_uid
+	placement_age+=delta
 	if body.time_scale>0:position=position.lerp(target_position,minf(1,delta*22))
 	picture.visible=body.visible
 	if body.sprite.sprite_frames!=null and body.animation_name!="":
@@ -84,12 +94,19 @@ func _process(delta: float) -> void:
 		picture.pixel_size=1.42/maxf(texture.get_width(),texture.get_height())
 		var base:=129.6/maxf(texture.get_width(),texture.get_height())
 		picture.scale=Vector3(body.sprite.scale.x/base,body.sprite.scale.y/base,1)
+		var settle:=maxf(0,1-placement_age/0.24)
+		picture.position.y=0.71+sin(settle*PI)*0.22
+		picture.scale*=Vector3(1+sin(settle*PI)*0.07,1-sin(settle*PI)*0.05,1)
 		picture.rotation.z=-body.sprite.rotation
 		picture.flip_h=body.sprite.flip_h
 		picture.offset=Vector2(body.sprite.position.x,-body.sprite.position.y)*1.6
 		var flash:float=body.actor_material.get_shader_parameter("flash")
 		picture.modulate=Color(1+flash*0.55,1+flash*0.35,1+flash*0.25,body.modulate.a)
 		collision.collision_layer=0 if body.dragging or not unit.get("alive",true) else 2
+	contact_shadow.visible=unit.get("alive",true) and not body.dragging
+	var lift:=maxf(0,picture.position.y-0.71)+maxf(0,-body.sprite.position.y-5)*0.011
+	contact_shadow.scale=Vector3.ONE*(1.0+lift*0.5)
+	contact_shadow.material_override.set_shader_parameter("opacity",clampf(0.48-lift*0.25,0.20,0.48))
 	accessory.visible=body.accessory.visible and body.accessory.texture!=null and body.visible
 	if accessory.visible:
 		accessory.texture=body.accessory.texture

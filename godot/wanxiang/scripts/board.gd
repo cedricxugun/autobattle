@@ -221,5 +221,5 @@ func _process(_delta: float) -> void:
 
 func _draw() -> void:
 	if geometry_only:return
-	var instruction:="拖动棋子布阵 · 近端石座为备战席 · 中键轻转 / 滚轮缩放" if own_board() else "中键查看场景 · 视角复位恢复正向 · 右键查看角色"
+	var instruction:="拖动棋子布阵 · 近端石座为备战席 · 中键轻转 / 滚轮缩放" if own_board() else "点击关注棋子 · 按住 Alt 查看完整文字 · 中键查看场景"
 	draw_string(font,Vector2(18,size.y-9),instruction,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("c7d5bd"))
