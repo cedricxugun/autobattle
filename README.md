@@ -1,1 +1,69 @@
-# autobattle
+# 万象棋局 · 知识嘉年华
+
+一个把数学、物理、化学、历史、语文、法律变成角色与技能的 Godot 桌面自走棋。知识可以整活：吸来铁皮车、把三只小猪的房子砸下去、在阳台对白中传递护盾。
+
+## 下载试玩
+
+Windows 64 位便携包见 [Releases](https://github.com/cedricxugun/autobattle/releases)。解压整个目录后运行 `万象棋局.exe`，无需额外安装 Godot 或 Node。请保留同目录的 `game` 和 `runtime` 文件夹。
+
+![磁针蜂技能演出](docs/images/magnet-car.png)
+
+## 当前内容
+
+- 54 种棋子、6 个学科、5 档费用、3 个星级，以及 9 种野怪、6 件装备。
+- 招募、共享有限卡池、刷新、锁店、升人口、合星、拖拽交换与上下场、装备掉落。
+- 玩家与 7 名 AI 的联赛；简单、困难、磨难；独立主场攻防、观战、淘汰和最终排名。
+- 学科/职业/品质/文学题材图鉴、独立技能演示、半速及重播、知识线索和来源。
+- 嘉年华场景、18 件原创道具；9 个角色重点重做了技能时序和喜剧演出。
+
+联赛流程完整可玩。角色仍采用 2D 序列帧和程序动作，技能演出的精修程度并不一致；这不是所有角色已达到商业发行品质的声明。3D 场景融合正在继续改进。
+
+![角色图鉴](docs/images/codex.png)
+
+## 从源码运行
+
+目前提供 Windows 64 位开发与运行路径。首次准备会下载固定版本的 Godot 4.7.2 和 Node.js 24.14.0，并核对 SHA-256：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\setup.ps1
+```
+
+之后运行根目录的 `启动万象棋局-Godot.cmd`，或在 Godot 中打开 `godot/wanxiang/project.godot`。
+
+Godot 原生界面与场景负责显示和交互；随附本地 Node 对局模块负责规则模拟，仅监听带会话令牌的 `127.0.0.1` 随机端口。游戏运行不需要联网服务。
+
+## 验证
+
+准备运行环境后：
+
+```powershell
+godot\wanxiang\runtime\node.exe godot\wanxiang\backend\test-native.cjs
+godot\wanxiang\runtime\node.exe godot\wanxiang\backend\test-presentation.cjs
+godot\wanxiang\runtime\node.exe godot\wanxiang\backend\test-comic.cjs
+godot\tools\godot-4.7.2\Godot_v4.7.2-stable_win64_console.exe --headless --path godot/wanxiang --max-fps 60 --script res://scripts/test_drag_input.gd -- --qa
+```
+
+另有 `test_native.gd`、`test_presentation.gd`，覆盖合星、显示状态、坐标、动画与分类图鉴。测试使用独立 QA 存档。
+
+## 构建便携版
+
+需要 Python 3 和 Windows .NET Framework 的 C# 编译器。先执行 `setup.ps1`，再运行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build.ps1
+```
+
+输出位于 `output/`。大型运行程序、Godot 导入缓存和便携压缩包不提交到 Git，便携包作为 Release 附件分发。
+
+## 目录
+
+| 路径 | 内容 |
+| --- | --- |
+| `godot/wanxiang/scripts` | Godot 界面、角色、特效与交互 |
+| `godot/wanxiang/backend` | 战斗、AI、经济、共享卡池和测试 |
+| `godot/wanxiang/data` | 角色、知识彩蛋和图集布局 |
+| `godot/wanxiang/assets` | 角色动作、场景、技能与道具素材 |
+| `godot/*prompts*`、`godot/*prompt.txt` | 内置生图使用的提示词记录 |
+| `godot/wanxiang/licenses` | 第三方运行环境许可证 |
+
+完整玩法、实现范围、知识来源和制作说明见 [嘉年华版本说明](godot/嘉年华版本说明.txt)。新美术由内置图像生成工具制作；公开文化题材用于原创游戏改编，现实知识与虚构战斗规则分开说明。

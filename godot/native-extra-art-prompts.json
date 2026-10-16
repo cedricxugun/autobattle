@@ -1,0 +1,64 @@
+{
+  "mode": "built-in image_gen",
+  "jobs": [
+    {
+      "key": "054",
+      "path": "characters",
+      "reference": "godot/wanxiang/assets/wild.png",
+      "prompt": "Use case: stylized-concept. Native fantasy auto-battler animation sprite sheet for ONLY the neutral monster at row 1, column 1 of the supplied 3x3 reference. Preserve that exact 墨尘团 creature identity and anatomy. Create exactly NINE isolated full-body poses in a precise 3x3 equal-cell square atlas, transparent alpha background, no labels, text, grid lines, scenery or ground. Consistent three-quarter view facing right, same scale and center and ground baseline in each cell, all limbs stay inside central 80% of each cell. Premium sculptural hand-painted game art matching reference. Exact row-major poses: 1 idle; 2 walk contact left legs; 3 walk passing; 4 walk contact opposite legs; 5 second walk passing; 6 attack windup; 7 strong attack impact natural to this anatomy; 8 attack recovery; 9 hurt recoil. Visible articulation of legs, wings or appendages, not shifting an unchanged illustration. No evolution rows: all nine are the same original monster design. No effects crossing cell borders."
+    },
+    {
+      "key": "055",
+      "path": "characters",
+      "reference": "godot/wanxiang/assets/wild.png",
+      "prompt": "Use case: stylized-concept. Native fantasy auto-battler animation sprite sheet for ONLY the neutral monster at row 1, column 2 of the supplied 3x3 reference. Preserve that exact 晶芽兽 creature identity and anatomy. Create exactly NINE isolated full-body poses in a precise 3x3 equal-cell square atlas, transparent alpha background, no labels, text, grid lines, scenery or ground. Consistent three-quarter view facing right, same scale and center and ground baseline in each cell, all limbs stay inside central 80% of each cell. Premium sculptural hand-painted game art matching reference. Exact row-major poses: 1 idle; 2 walk contact left legs; 3 walk passing; 4 walk contact opposite legs; 5 second walk passing; 6 attack windup; 7 strong attack impact natural to this anatomy; 8 attack recovery; 9 hurt recoil. Visible articulation of legs, wings or appendages, not shifting an unchanged illustration. No evolution rows: all nine are the same original monster design. No effects crossing cell borders."
+    },
+    {
+      "key": "056",
+      "path": "characters",
+      "reference": "godot/wanxiang/assets/wild.png",
+      "prompt": "Use case: stylized-concept. Native fantasy auto-battler animation sprite sheet for ONLY the neutral monster at row 1, column 3 of the supplied 3x3 reference. Preserve that exact 算珠甲虫 creature identity and anatomy. Create exactly NINE isolated full-body poses in a precise 3x3 equal-cell square atlas, transparent alpha background, no labels, text, grid lines, scenery or ground. Consistent three-quarter view facing right, same scale and center and ground baseline in each cell, all limbs stay inside central 80% of each cell. Premium sculptural hand-painted game art matching reference. Exact row-major poses: 1 idle; 2 walk contact left legs; 3 walk passing; 4 walk contact opposite legs; 5 second walk passing; 6 attack windup; 7 strong attack impact natural to this anatomy; 8 attack recovery; 9 hurt recoil. Visible articulation of legs, wings or appendages, not shifting an unchanged illustration. No evolution rows: all nine are the same original monster design. No effects crossing cell borders."
+    },
+    {
+      "key": "057",
+      "path": "characters",
+      "reference": "godot/wanxiang/assets/wild.png",
+      "prompt": "Use case: stylized-concept. Native fantasy auto-battler animation sprite sheet for ONLY the neutral monster at row 2, column 1 of the supplied 3x3 reference. Preserve that exact 铜脊魔像 creature identity and anatomy. Create exactly NINE isolated full-body poses in a precise 3x3 equal-cell square atlas, transparent alpha background, no labels, text, grid lines, scenery or ground. Consistent three-quarter view facing right, same scale and center and ground baseline in each cell, all limbs stay inside central 80% of each cell. Premium sculptural hand-painted game art matching reference. Exact row-major poses: 1 idle; 2 walk contact left legs; 3 walk passing; 4 walk contact opposite legs; 5 second walk passing; 6 attack windup; 7 strong attack impact natural to this anatomy; 8 attack recovery; 9 hurt recoil. Visible articulation of legs, wings or appendages, not shifting an unchanged illustration. No evolution rows: all nine are the same original monster design. No effects crossing cell borders."
+    },
+    {
+      "key": "058",
+      "path": "characters",
+      "reference": "godot/wanxiang/assets/wild.png",
+      "prompt": "Use case: stylized-concept. Native fantasy auto-battler animation sprite sheet for ONLY the neutral monster at row 2, column 2 of the supplied 3x3 reference. Preserve that exact 反应花妖 creature identity and anatomy. Create exactly NINE isolated full-body poses in a precise 3x3 equal-cell square atlas, transparent alpha background, no labels, text, grid lines, scenery or ground. Consistent three-quarter view facing right, same scale and center and ground baseline in each cell, all limbs stay inside central 80% of each cell. Premium sculptural hand-painted game art matching reference. Exact row-major poses: 1 idle; 2 walk contact left legs; 3 walk passing; 4 walk contact opposite legs; 5 second walk passing; 6 attack windup; 7 strong attack impact natural to this anatomy; 8 attack recovery; 9 hurt recoil. Visible articulation of legs, wings or appendages, not shifting an unchanged illustration. No evolution rows: all nine are the same original monster design. No effects crossing cell borders."
+    },
+    {
+      "key": "059",
+      "path": "characters",
+      "reference": "godot/wanxiang/assets/wild.png",
+      "prompt": "Use case: stylized-concept. Native fantasy auto-battler animation sprite sheet for ONLY the neutral monster at row 2, column 3 of the supplied 3x3 reference. Preserve that exact 断页守卫 creature identity and anatomy. Create exactly NINE isolated full-body poses in a precise 3x3 equal-cell square atlas, transparent alpha background, no labels, text, grid lines, scenery or ground. Consistent three-quarter view facing right, same scale and center and ground baseline in each cell, all limbs stay inside central 80% of each cell. Premium sculptural hand-painted game art matching reference. Exact row-major poses: 1 idle; 2 walk contact left legs; 3 walk passing; 4 walk contact opposite legs; 5 second walk passing; 6 attack windup; 7 strong attack impact natural to this anatomy; 8 attack recovery; 9 hurt recoil. Visible articulation of legs, wings or appendages, not shifting an unchanged illustration. No evolution rows: all nine are the same original monster design. No effects crossing cell borders."
+    },
+    {
+      "key": "060",
+      "path": "characters",
+      "reference": "godot/wanxiang/assets/wild.png",
+      "prompt": "Use case: stylized-concept. Native fantasy auto-battler animation sprite sheet for ONLY the neutral monster at row 3, column 1 of the supplied 3x3 reference. Preserve that exact 磁暴巨像 creature identity and anatomy. Create exactly NINE isolated full-body poses in a precise 3x3 equal-cell square atlas, transparent alpha background, no labels, text, grid lines, scenery or ground. Consistent three-quarter view facing right, same scale and center and ground baseline in each cell, all limbs stay inside central 80% of each cell. Premium sculptural hand-painted game art matching reference. Exact row-major poses: 1 idle; 2 walk contact left legs; 3 walk passing; 4 walk contact opposite legs; 5 second walk passing; 6 attack windup; 7 strong attack impact natural to this anatomy; 8 attack recovery; 9 hurt recoil. Visible articulation of legs, wings or appendages, not shifting an unchanged illustration. No evolution rows: all nine are the same original monster design. No effects crossing cell borders."
+    },
+    {
+      "key": "061",
+      "path": "characters",
+      "reference": "godot/wanxiang/assets/wild.png",
+      "prompt": "Use case: stylized-concept. Native fantasy auto-battler animation sprite sheet for ONLY the neutral monster at row 3, column 2 of the supplied 3x3 reference. Preserve that exact 混沌奇美拉 creature identity and anatomy. Create exactly NINE isolated full-body poses in a precise 3x3 equal-cell square atlas, transparent alpha background, no labels, text, grid lines, scenery or ground. Consistent three-quarter view facing right, same scale and center and ground baseline in each cell, all limbs stay inside central 80% of each cell. Premium sculptural hand-painted game art matching reference. Exact row-major poses: 1 idle; 2 walk contact left legs; 3 walk passing; 4 walk contact opposite legs; 5 second walk passing; 6 attack windup; 7 strong attack impact natural to this anatomy; 8 attack recovery; 9 hurt recoil. Visible articulation of legs, wings or appendages, not shifting an unchanged illustration. No evolution rows: all nine are the same original monster design. No effects crossing cell borders."
+    },
+    {
+      "key": "062",
+      "path": "characters",
+      "reference": "godot/wanxiang/assets/wild.png",
+      "prompt": "Use case: stylized-concept. Native fantasy auto-battler animation sprite sheet for ONLY the neutral monster at row 3, column 3 of the supplied 3x3 reference. Preserve that exact 终卷巨龙 creature identity and anatomy. Create exactly NINE isolated full-body poses in a precise 3x3 equal-cell square atlas, transparent alpha background, no labels, text, grid lines, scenery or ground. Consistent three-quarter view facing right, same scale and center and ground baseline in each cell, all limbs stay inside central 80% of each cell. Premium sculptural hand-painted game art matching reference. Exact row-major poses: 1 idle; 2 walk contact left legs; 3 walk passing; 4 walk contact opposite legs; 5 second walk passing; 6 attack windup; 7 strong attack impact natural to this anatomy; 8 attack recovery; 9 hurt recoil. Visible articulation of legs, wings or appendages, not shifting an unchanged illustration. No evolution rows: all nine are the same original monster design. No effects crossing cell borders."
+    },
+    {
+      "key": "equipment",
+      "path": "",
+      "prompt": "Use case: stylized-concept. Premium original fantasy strategy game EQUIPMENT ICON atlas. Exactly six distinct isolated game item icons in a precise THREE columns TWO rows landscape 3:2 grid, transparent alpha, no background, no text or letters, no frames, no grid lines. Rich hand-painted 3D sculptural polished materials, dark teal fantasy academy style, bronze hardware, detailed crisp readable silhouettes, each centered in its own equal square cell with 15% transparent padding, no overlap. Row1 column1: a sharp glowing amber crystal core with spear-like blades; row1 column2: a sturdy ivory and aged brass guardian armor plate with turquoise inset; row1 column3: a luminous emerald life seed with small golden leaves and a heart-like organic form. Row2 column1: a blue resonance gear with concentric metal teeth and a glowing center; row2 column2: a violet focusing prism mounted in a small brass triangular frame; row2 column3: an ivory folded procedural talisman scroll with a golden seal and navy cord. Original art not referencing existing games."
+    }
+  ]
+}

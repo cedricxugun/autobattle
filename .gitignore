@@ -1,0 +1,14 @@
+# Generated Godot data and machine-local runtimes
+**/.godot/
+**/*.import
+godot/tools/
+godot/wanxiang/runtime/
+godot/WanxiangLauncher.exe
+output/
+*.log
+*.zip
+*.exe
+.env
+.env.*
+__pycache__/
+

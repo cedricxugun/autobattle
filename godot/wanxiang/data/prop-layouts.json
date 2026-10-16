@@ -1,0 +1,164 @@
+{
+  "car": {
+    "file": "comic-science-v1.png",
+    "rect": [
+      24,
+      104,
+      488,
+      340
+    ]
+  },
+  "magnet": {
+    "file": "comic-science-v1.png",
+    "rect": [
+      512,
+      57,
+      502,
+      455
+    ]
+  },
+  "soda": {
+    "file": "comic-science-v1.png",
+    "rect": [
+      1146,
+      27,
+      282,
+      459
+    ]
+  },
+  "dice": {
+    "file": "comic-science-v1.png",
+    "rect": [
+      59,
+      533,
+      400,
+      419
+    ]
+  },
+  "parcel": {
+    "file": "comic-science-v1.png",
+    "rect": [
+      543,
+      512,
+      453,
+      459
+    ]
+  },
+  "gavel": {
+    "file": "comic-science-v1.png",
+    "rect": [
+      1046,
+      520,
+      469,
+      430
+    ]
+  },
+  "balcony": {
+    "file": "comic-stories-v1.png",
+    "rect": [
+      79,
+      13,
+      384,
+      499
+    ]
+  },
+  "letter": {
+    "file": "comic-stories-v1.png",
+    "rect": [
+      535,
+      79,
+      489,
+      433
+    ]
+  },
+  "book": {
+    "file": "comic-stories-v1.png",
+    "rect": [
+      1024,
+      16,
+      507,
+      496
+    ]
+  },
+  "straw": {
+    "file": "comic-stories-v1.png",
+    "rect": [
+      28,
+      512,
+      460,
+      493
+    ]
+  },
+  "wood": {
+    "file": "comic-stories-v1.png",
+    "rect": [
+      525,
+      512,
+      483,
+      489
+    ]
+  },
+  "brick": {
+    "file": "comic-stories-v1.png",
+    "rect": [
+      1027,
+      512,
+      491,
+      493
+    ]
+  },
+  "camera": {
+    "file": "comic-extra-v1.png",
+    "rect": [
+      50,
+      46,
+      413,
+      466
+    ]
+  },
+  "crown": {
+    "file": "comic-extra-v1.png",
+    "rect": [
+      550,
+      41,
+      413,
+      471
+    ]
+  },
+  "pumpkin": {
+    "file": "comic-extra-v1.png",
+    "rect": [
+      1083,
+      40,
+      405,
+      472
+    ]
+  },
+  "hourglass": {
+    "file": "comic-extra-v1.png",
+    "rect": [
+      115,
+      512,
+      304,
+      443
+    ]
+  },
+  "megaphone": {
+    "file": "comic-extra-v1.png",
+    "rect": [
+      566,
+      512,
+      407,
+      444
+    ]
+  },
+  "ears": {
+    "file": "comic-extra-v1.png",
+    "rect": [
+      1098,
+      512,
+      396,
+      447
+    ]
+  }
+}
