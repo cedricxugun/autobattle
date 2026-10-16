@@ -14,7 +14,7 @@
     "model": "H3.1",
     "budgetApproved": 55,
     "input": "A premium stylized fantasy academic carnival environment prop: a brass armillary observatory on a pedestal of three thick midnight blue and dark teal leather books with ornate gold corners. Thick interlocking orbital rings enclose one large turquoise planet, two attached copper moons. Small red horseshoe magnet on side, amber lantern on front. All parts connected, broad sturdy silhouette, hand-painted game textures, softly worn brass, navy enamel. Full object only, no ground, no scenery, no words. Suitable for a game arena corner, detailed high-quality playful fantasy style.",
-    "status": "generated; web GLB export pending",
+    "status": "generated; comparison variant retained in Tripo account",
     "taskId": "30713985-e66c-45f4-b263-bd414ff5bee9",
     "creditsSpent": 55
   },
@@ -24,7 +24,17 @@
     "input": "wanxiang/assets/concepts/orrery-v1.png",
     "taskId": "851267f7-c0c8-4338-9c5f-01e17dac76d7",
     "creditsSpent": 55,
-    "status": "generated; web GLB export pending",
-    "url": "https://studio.tripo3d.ai/zh/workspace/generate/ornate-brass-armillary-globe-atop-a-stack-of-blue-books-with-a-lantern-851267f7-c0c8-4338-9c5f-01e17dac76d7"
-  }
+    "status": "downloaded, optimized and integrated",
+    "url": "https://studio.tripo3d.ai/zh/workspace/generate/ornate-brass-armillary-globe-atop-a-stack-of-blue-books-with-a-lantern-851267f7-c0c8-4338-9c5f-01e17dac76d7",
+    "asset": "wanxiang/assets/models/academic-orrery.glb",
+    "optimization": {
+      "tool": "@gltf-transform/cli 4.5.1 simplify",
+      "ratio": 0.025,
+      "error": 0.003,
+      "originalTriangles": 1962001,
+      "gameTriangles": 155890,
+      "textures": "preserved; runtime mipmaps and softened lighting"
+    }
+  },
+  "creditsTotal": 110
 }

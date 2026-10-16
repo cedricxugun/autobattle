@@ -18,3 +18,5 @@ https://github.com/VasilevVitalii/Godot-3D-MapCameraController
 
 验证
 48格的中心及边界反投影；不同窗口尺寸与缩放；横行保持水平；9个备战位投影与命中一致；完整鼠标拖拽交换、上下场、取消；特效生命周期和暂停；原生GPU截图。
+
+真实3D模型：星轨书台使用原创生图参考，经Tripo H3.1图生模型，GLB运行时加载；本地网格减面后155890三角面。加入接地阴影、柔和材质、星点动画和独立射线点击。知识参考：https://www.mhs.ox.ac.uk/epact/article.php?ArticleID=1

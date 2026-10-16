@@ -11,6 +11,7 @@
 新联赛以磁针蜂、酸雾蛙、三角守卫、驿路行军者等组成趣味起始商店。准备阶段可布阵，战斗阶段收起不可操作的商店。
 
 本次美术与演出
+新增真实3D“星轨书台”：原创概念图经Tripo网页版图生模型，减面至155890三角面；点击可触发星点环绕和知识提示。
 “知识嘉年华”正向竞技场：敌方在上、我方在下。真实3D方格和近端九席备战台，固定俯视镜头，有限滚轮缩放。远景使用原创生图景片，保留清楚的操作区。
 拖拽按真实地面格求交，脚部优先选取，防止前排身形遮住后排落点。地面持续技能投在真实3D地板上。
 新增18件原创透明道具。54个角色和9个野怪都有性格短句、知识线索与主题道具提示。
@@ -49,7 +50,7 @@
 game：游戏源文件、数据、图片、声音生成与本地对局模块。
 runtime：随附Godot运行程序。game/runtime含Node运行程序。
 game/licenses：Godot和Node许可证。
-制作资料：生成提示词与本说明。新美术全部使用Codex内置imagegen生成，未使用付费API/CLI回退。
+制作资料：生成提示词与本说明。二维美术使用Codex内置imagegen生成；星轨书台使用Tripo网页版图生3D模型，共制作2个比较版本，消耗110积分，游戏采用图生版本。未使用Tripo API额度。
 生成文件：game/assets/props/comic-science-v1.png、comic-stories-v1.png、comic-extra-v1.png；game/assets/arena-carnival-v1.png。
 提示词：comic-art-prompts.json、comic-extra-prompt.txt、carnival-scene-prompt.txt。
 对局保存于系统用户数据目录的“Godot/app_userdata/万象棋局”；剧场使用独立QA存档，不覆盖正常联赛。

@@ -17,10 +17,21 @@ func _ready() -> void:
 		return
 	model=document.generate_scene(state)
 	add_child(model)
+	_soften_materials(model)
 	var bounds:=_bounds(model,Transform3D.IDENTITY)
 	var factor:=1.85/maxf(bounds.size.y,0.001)
 	model.scale=Vector3.ONE*factor
 	model.position=Vector3(-bounds.get_center().x,-bounds.position.y,-bounds.get_center().z)*factor
+	var contact:=MeshInstance3D.new()
+	var plane:=PlaneMesh.new()
+	plane.size=Vector2(1.45,1.35)
+	contact.mesh=plane
+	contact.position.y=0.015
+	var shadow:=ShaderMaterial.new()
+	shadow.shader=load("res://shaders/contact_shadow.gdshader")
+	contact.material_override=shadow
+	contact.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(contact)
 	var collider:=StaticBody3D.new()
 	collider.collision_layer=4
 	collider.collision_mask=0
@@ -34,8 +45,8 @@ func _ready() -> void:
 	for i in 8:
 		var spark:=MeshInstance3D.new()
 		var sphere:=SphereMesh.new()
-		sphere.radius=0.024
-		sphere.height=0.048
+		sphere.radius=0.010
+		sphere.height=0.020
 		var mat:=StandardMaterial3D.new()
 		mat.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
 		mat.albedo_color=Color("c6e8d2") if i%2==0 else Color("f4ce83")
@@ -44,6 +55,28 @@ func _ready() -> void:
 		spark.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		add_child(spark)
 		sparks.append(spark)
+
+func _soften_materials(node: Node) -> void:
+	if node is MeshInstance3D:
+		for index in node.mesh.get_surface_count():
+			var original:Material=node.mesh.surface_get_material(index)
+			if not original is StandardMaterial3D:continue
+			var mat:StandardMaterial3D=original.duplicate()
+			mat.roughness=0.86
+			mat.metallic=0.12
+			mat.metallic_specular=0.15
+			mat.normal_enabled=false
+			mat.texture_filter=BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+			for slot in [BaseMaterial3D.TEXTURE_ALBEDO,BaseMaterial3D.TEXTURE_METALLIC,BaseMaterial3D.TEXTURE_ROUGHNESS]:
+				var texture:=mat.get_texture(slot)
+				if texture==null:continue
+				var pixels:=texture.get_image()
+				if pixels!=null and not pixels.has_mipmaps():
+					if pixels.is_compressed():pixels.decompress()
+					pixels.generate_mipmaps()
+					mat.set_texture(slot,ImageTexture.create_from_image(pixels))
+			node.set_surface_override_material(index,mat)
+	for child in node.get_children():_soften_materials(child)
 
 func _bounds(node: Node, inherited: Transform3D) -> AABB:
 	var current:=inherited
@@ -69,4 +102,4 @@ func _process(delta: float) -> void:
 	for i in sparks.size():
 		var angle:=elapsed+i*TAU/8
 		sparks[i].position=Vector3(cos(angle)*0.76,1.25+sin(angle)*0.34,sin(angle)*0.48)
-		sparks[i].scale=Vector3.ONE*(1.9 if pulse>0 else 0.6)
+		sparks[i].scale=Vector3.ONE*(1.5 if pulse>0 else 0.6)

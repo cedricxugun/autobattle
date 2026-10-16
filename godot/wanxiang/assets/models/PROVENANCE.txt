@@ -1,0 +1,10 @@
+Academic Orrery / 星轨书台
+Original concept: ../concepts/orrery-v1.png, generated with built-in imagegen.
+Model: Tripo Studio website image-to-model H3.1, task 851267f7-c0c8-4338-9c5f-01e17dac76d7, 55 credits.
+Text-to-model comparison task 30713985-e66c-45f4-b263-bd414ff5bee9 cost 55 credits, not included in the game.
+Total billed: 110 credits. Website balance 3020 -> 2910. No API generation used.
+Original downloaded mesh: 1,962,001 triangles, 62,959,308 bytes.
+Game mesh: 155,890 triangles; glTF Transform 4.5.1 simplify --ratio 0.025 --error 0.003.
+Textures preserved during geometry simplification. Runtime material adds mipmaps and reduces specular shimmer.
+Knowledge reference: https://www.mhs.ox.ac.uk/epact/article.php?ArticleID=1
+This is an original fantasy game prop, not an accurate reproduction of a historical instrument.
