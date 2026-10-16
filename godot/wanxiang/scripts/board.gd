@@ -63,6 +63,10 @@ func cell_size() -> float:
 	if stage==null:return 50.0
 	return stage.project(2,3).distance_to(stage.project(3,3))
 
+func cell_size_at(x: float, y: float) -> float:
+	if geometry_only:return 128.0
+	return stage.project(x-0.5,y).distance_to(stage.project(x+0.5,y))
+
 func grid_bounds() -> Rect2:
 	return Rect2(Vector2.ZERO,Vector2(768,1024)) if geometry_only else stage.bounds()
 
@@ -134,6 +138,9 @@ func unit_at(point: Vector2, only_owned: bool = false) -> Dictionary:
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
+		if event.button_mask & MOUSE_BUTTON_MASK_MIDDLE and not drag_started:
+			stage.yaw=clampf(stage.yaw-event.relative.x*0.12,-14,14)
+			stage._set_camera()
 		hover_cell = cell_at(event.position)
 		queue_redraw()
 	if event is InputEventMouseButton and event.pressed:
@@ -214,5 +221,5 @@ func _process(_delta: float) -> void:
 
 func _draw() -> void:
 	if geometry_only:return
-	var instruction:="拖动棋子布阵 · 下方圆台为备战席 · 滚轮缩放" if own_board() else "敌方在上 · 我方在下 · 右键查看角色"
+	var instruction:="拖动棋子布阵 · 近端石座为备战席 · 中键轻转 / 滚轮缩放" if own_board() else "中键查看场景 · 视角复位恢复正向 · 右键查看角色"
 	draw_string(font,Vector2(18,size.y-9),instruction,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("c7d5bd"))

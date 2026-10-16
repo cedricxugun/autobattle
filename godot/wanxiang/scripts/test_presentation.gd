@@ -22,6 +22,9 @@ func run() -> void:
 				check(board.cell_at(board.projection(column+0.49,row+0.49))==Vector2i(column,row),"full visible tile belongs to same drop cell")
 		check(is_equal_approx(board.stage.tiles[0].get_aabb().size.x,board.stage.tiles[0].get_aabb().size.z),"3D tiles are square in world space")
 	check(is_zero_approx(board.stage.yaw),"default camera looks straight down the battle axis")
+	check(board.stage.camera.projection==Camera3D.PROJECTION_PERSPECTIVE,"arena uses perspective, not a flat board projection")
+	check(board.projection(0,7).distance_to(board.projection(5,7))>board.projection(0,0).distance_to(board.projection(5,0))*1.2,"near rank visibly wider than far rank")
+	check(board.stage.scenery==null,"no camera-aligned scenery sheet behind the board")
 	for zoom in [8.2,8.8,9.6]:
 		board.stage.zoom_size=zoom
 		board.stage._set_camera()
@@ -33,6 +36,14 @@ func run() -> void:
 		for slot in 9:
 			check(board.stage.bench_at(board.stage.bench_screen(slot))==slot,"all nine world bench slots align")
 	board.stage.zoom_size=8.8
+	board.stage._set_camera()
+	for angle in [-14.0,14.0]:
+		board.stage.yaw=angle
+		board.stage._set_camera()
+		for row in 8:
+			for col in 6:
+				check(board.cell_at(board.projection(col,row))==Vector2i(col,row),"inspection angle preserves ground picking")
+	board.stage.yaw=0.0
 	board.stage._set_camera()
 	var fx = board.effects_layer
 	var event := {"id":1,"born":0.0,"life":0.5,"ttl":0.5,"type":"impact","x":2,"y":3,"x2":2,"y2":3,"faction":"math"}
@@ -53,6 +64,16 @@ func run() -> void:
 	var clock_before: float=fx.clock
 	fx._process(0.3)
 	check(fx.clock==clock_before,"pause freezes VFX timeline")
+	packet.matchKey="interrupt"
+	packet.paused=false
+	packet.board.units=[{"uid":"caster","id":51,"star":1,"team":0,"x":2,"y":3,"alive":true,"buffs":["stun"]}]
+	packet.board.effects=[{"id":3,"type":"gag_gavel","sourceUid":"caster","born":0.0,"life":0.5,"ttl":0.5,"x":2,"y":3,"x2":2,"y2":2,"faction":"law"}]
+	fx.update_state(packet)
+	fx._process(0.01)
+	check(fx.active.is_empty(),"interrupted gavel removes its warning and flying prop")
+	packet.board.units[0].buffs=[]
+	fx.update_state(packet)
+	check(fx.active.is_empty(),"old interrupted cue cannot restart after stun expires")
 	var piece := ChessPiece.new()
 	root.add_child(piece)
 	var u := {"uid":"unit","id":0,"star":1,"team":0,"x":3.0,"y":4.0,"aimX":1.0,"aimY":4.0,"faction":"math","alive":true,"attackAt":0.0,"hitAt":-99,"castAt":-99}

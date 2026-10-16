@@ -8,3 +8,9 @@ Game mesh: 155,890 triangles; glTF Transform 4.5.1 simplify --ratio 0.025 --erro
 Textures preserved during geometry simplification. Runtime material adds mipmaps and reduces specular shimmer.
 Knowledge reference: https://www.mhs.ox.ac.uk/epact/article.php?ArticleID=1
 This is an original fantasy game prop, not an accurate reproduction of a historical instrument.
+
+3D Courtyard 0.4 additions
+Observatory: original concept ../concepts/observatory-v1.png; Tripo Studio H3.1 image-to-model task d8f513f7-307b-4938-89c5-21d7c503089d, 55 credits. Game asset 154157 triangles / 9848272 bytes.
+Storybook theatre: original concept ../concepts/storybook-pavilion-v1.png; Tripo Studio H3.1 image-to-model task db075e81-acc2-47b5-a302-a3a33b824e0a, 55 credits. Game asset 173966 triangles / 11044864 bytes.
+Both optimized locally with glTF Transform 4.5.1 simplify --ratio 0.035 --error 0.004. Original textures preserved.
+This update spent 110 website credits; balance 2910 -> 2800. No paid retopology or API generation was submitted. GLB/FBX export retries did not change the balance.

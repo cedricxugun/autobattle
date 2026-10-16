@@ -37,9 +37,6 @@ static func draw(canvas: Node2D, e: Dictionary, age: float, p: Vector2, q: Vecto
 			var start := p+Vector2(-cell*0.65,-cell*0.5)
 			var travel := start.lerp(q,t)
 			travel.y-=sin(t*PI)*cell*1.25
-			canvas.draw_set_transform(q,0,Vector2(1,0.32))
-			canvas.draw_circle(Vector2.ZERO,cell*(0.1+t*0.3),Color(0.02,0.04,0.06,0.25+t*0.15))
-			canvas.draw_set_transform(Vector2.ZERO)
 			for i in 5:
 				var point:=p.lerp(travel,fmod(age*2+float(i)/5,1))
 				canvas.draw_arc(point,5,0,PI,12,Color(color,0.55),1.5,true)
@@ -93,7 +90,6 @@ static func draw(canvas: Node2D, e: Dictionary, age: float, p: Vector2, q: Vecto
 			var name: String = ["straw","wood","brick"][int(e.get("variant",0))]
 			var at:=q-Vector2(0,cell*1.7*(1-t*t))
 			prop(canvas,name,at,cell*0.85,sin(t*8)*0.08)
-			canvas.draw_arc(q,cell*0.3,0,TAU,32,Color(color,0.7),1.5,true)
 		"gag_midnight":
 			prop(canvas,"pumpkin",q+Vector2(cell*0.3,-cell*0.3),cell*0.36,sin(age*9)*0.08,0.8)
 			canvas.draw_arc(q,cell*0.4,-PI*0.5,-PI*0.5+TAU*(1-t),48,Color("efbb83",0.8),2,true)
@@ -101,7 +97,6 @@ static func draw(canvas: Node2D, e: Dictionary, age: float, p: Vector2, q: Vecto
 		"gag_gavel":
 			var at := q-Vector2(0,cell*(0.65+(1-t)*0.5))
 			prop(canvas,"gavel",at,cell*1.2,-0.8+t*0.5)
-			canvas.draw_arc(q,cell*0.4,0,TAU,40,Color(color,0.8),2,true)
 			caption(canvas,font,q+Vector2(0,cell*0.55),"裁决蓄力",color)
 		"gag_poem", "gag_verse":
 			var at:=p if e.type=="gag_poem" else p.lerp(q,minf(1,t*2))

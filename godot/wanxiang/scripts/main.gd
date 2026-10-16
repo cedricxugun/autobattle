@@ -45,6 +45,7 @@ var sound_enabled := true
 var audio := AudioStreamPlayer.new()
 var inspect_position := Vector2.ZERO
 var qa_capture := ""
+var qa_scene_angle := 0.0
 var qa_ticks := 0
 var codex: EvolutionCodex
 var qa_codex := false
@@ -59,6 +60,7 @@ var qa_capture_cue := ""
 var qa_capturing := false
 
 func _ready() -> void:
+	DisplayServer.window_set_title("万象棋局 · 3D庭院 0.4 预览")
 	get_window().title = "万象棋局 · 知识嘉年华"
 	get_window().min_size = Vector2i(1180, 740)
 	var font := SystemFont.new()
@@ -109,6 +111,8 @@ func _ready() -> void:
 			codex.show()
 		if argument.begins_with("--capture="):
 			qa_capture = argument.trim_prefix("--capture=")
+		if argument.begins_with("--scene-angle="):
+			qa_scene_angle=float(argument.trim_prefix("--scene-angle="))
 	if not qa_capture.is_empty():
 		menu.visible = false
 
@@ -156,6 +160,7 @@ func _build_interface() -> void:
 	header.add_theme_constant_override("separation", 15)
 	root.add_child(header)
 	header.add_child(label("万象棋局", 27, Color("e5cd98")))
+	header.add_child(label("庭院 · 0.4",11,Color("8ba8a6")))
 	round_label = label("联赛连接中", 15)
 	round_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -422,6 +427,7 @@ func _refresh_hud() -> void:
 	return_button.visible = state.watching != "you"
 	pairing_label.text = "%s  ←  %s" % [state.watchName, state.enemyName]
 	next_label.text = str(state.nextHint) + ("  ·  你的镜像挑战：" + str(state.outgoingName) if state.outgoingName != null else "")
+	if state.get("preview",false):next_label.text="橙色锁定敌方 · 绿色指向友方 · 圆弧闭合后命中；大范围圈显示落地区域"
 	status_label.text = "技能演示 · 不影响当前联赛" if state.get("preview",false) else "左键拖动交换 / 上下场 · 右键看详情"
 	_refresh_traits()
 	_refresh_players()
@@ -721,6 +727,8 @@ func _process(delta: float) -> void:
 			for slot in [0, 1, 3, 2]:
 				_send("buy", {"slot": slot})
 		elif qa_ticks == 40:
+			board.stage.yaw=qa_scene_angle
+			board.stage._set_camera()
 			_send("refresh")
 			if qa_demo != -1:
 				_send("preview_battle" if qa_demo<0 else "preview_skill", {"id":qa_demo})

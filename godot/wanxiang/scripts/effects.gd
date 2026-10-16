@@ -165,7 +165,7 @@ func _process(delta: float) -> void:
 		clock += delta * rate
 		if not finished:
 			clock = minf(clock, server_clock + 0.18 * rate)
-	active = active.filter(func(e): return clock - float(e.born) < float(e.life) + (0.18 if e.type in ["bolt", "orb"] else 0.0))
+	active = active.filter(_cue_alive)
 	numbers = numbers.filter(func(e): return clock - float(e.born) < float(e.life))
 	notices = notices.filter(func(e): return clock - float(e.born) < 4.0)
 	var clip: Control=get_parent()
@@ -174,6 +174,14 @@ func _process(delta: float) -> void:
 	position=Vector2.ZERO
 	hud.queue_redraw()
 	queue_redraw()
+
+func _cue_alive(e: Dictionary) -> bool:
+	if clock-float(e.born)>=float(e.life)+(0.18 if e.type in ["bolt","orb"] else 0.0):return false
+	if e.type in ["gag_gavel","gag_house"]:
+		var caster:=unit(str(e.get("sourceUid","")))
+		if caster.is_empty() or not caster.get("alive",true):return false
+		if "stun" in caster.get("buffs",[]) or "silence" in caster.get("buffs",[]):return false
+	return true
 
 func glow(at: Vector2, radius: float, color: Color, alpha: float) -> void:
 	if radius > 0:
@@ -189,7 +197,6 @@ func stroke(points: PackedVector2Array, color: Color, width: float, alpha: float
 func _draw() -> void:
 	if board == null or soft == null:
 		return
-	var cell := board.cell_size()
 	for e in active:
 		var age := maxf(0, clock - float(e.born))
 		var t := clampf(age / maxf(0.05, float(e.life)), 0, 1)
@@ -198,6 +205,9 @@ func _draw() -> void:
 		var q := board.effect_projection(float(e.x2),float(e.y2))
 		var end_unit := unit(str(e.get("targetUid","")))
 		var anchor := unit(str(e.get("anchorUid","")))
+		var target_x:float=float(end_unit.get("x",e.x2))
+		var target_y:float=float(end_unit.get("y",e.y2))
+		var cell:=board.cell_size_at(lerpf(float(e.x),target_x,t),lerpf(float(e.y),target_y,t))
 		if e.type in ["bolt","orb","beam","chain","link","vine","charge"] and not end_unit.is_empty():
 			q = board.effect_projection(end_unit.x,end_unit.y)
 		if e.type in ["beam","chain","link","vine","charge"] and not anchor.is_empty():
@@ -335,8 +345,8 @@ func _draw_numbers() -> void:
 		if kind != "text":
 			text = ("+" if kind == "heal" else "盾 " if kind == "absorbed" else "") + str(amount)
 		var big := kind in ["physical", "magic"] and amount >= 160
-		var point := board.projection(float(e.x), float(e.y))
-		point += Vector2((int(e.lane)-1) * 23, -board.cell_size()*0.6-int(e.lane)*13)
+		var point := board.stage.project(float(e.x),float(e.y),1.55)
+		point += Vector2((int(e.lane)-1) * 23, -int(e.lane)*13)
 		point += Vector2(sin(float(e.get("id",0)))*t*15, -30*(1-pow(1-t,2)))
 		var alpha := minf(1, (1-t)*3.5)
 		var font_size := int((22 if big else 12 if kind=="absorbed" or amount<25 else 15 if kind != "text" else 12) * (1 + maxf(0,1-age/0.12)*0.22))

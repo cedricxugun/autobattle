@@ -8,6 +8,15 @@ func run() -> void:
 	await process_frame
 	await physics_frame
 	var prop:=board.stage.showpiece
+	if board.stage.architecture.get_child_count()!=2:
+		push_error("SCENE_MODEL_TEST requires both real 3D buildings")
+		quit(1)
+		return
+	for building in board.stage.architecture.get_children():
+		if building.model==null:
+			push_error("SCENE_MODEL_TEST building failed to load")
+			quit(1)
+			return
 	if prop==null or prop.model==null:
 		push_error("SCENE_MODEL_TEST missing runtime glTF model")
 		quit(1)

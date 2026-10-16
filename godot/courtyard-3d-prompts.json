@@ -1,0 +1,44 @@
+{
+  "tool": "built-in imagegen",
+  "concepts": [
+    {
+      "name": "observatory-v1",
+      "prompt": "One isolated complete original fantasy academy observatory BUILDING, game-ready architectural concept for image-to-3D. Charming premium hand-painted stylized 3D asset with detailed sculpted stone and wood, warm grey limestone, midnight navy copper dome, tasteful aged gold ribs, turquoise glass telescope emerging from the opened dome, two small red horseshoe magnets on side supports, warm amber windows, ivy climbing one wall. Broad squat building, one tall ground floor plus dome, arched double entrance, flanking short staircases, compact square footprint. Full building visible including roof and foundation. Freestanding building all sides enclosed, no cutaway. Three quarter front view looking down 25 degrees. Soft neutral studio lighting, no harsh baked shadows, plain light grey background, no ground plane beyond its small stone foundation. Solid sturdy thick architectural details, no wispy filigree. No text, no signs, no people, no UI, no board, no unrelated scenery. Designed to stand beside an academic auto-battler arena. High craft, charming silhouette, cohesive rich game textures."
+    },
+    {
+      "name": "storybook-pavilion-v1",
+      "prompt": "One isolated complete original fantasy academy STORYBOOK THEATRE PAVILION building, premium hand-painted stylized 3D game architectural concept for image-to-3D. A compact broad theatre fashioned from a giant closed midnight-blue leather book foundation. Rose-covered limestone columns hold an elegant curved navy roof with aged golden trim, small warm amber hanging lanterns. Deep burgundy velvet curtains frame a small open stage with a gold comedy mask mounted above. Integrated low stone side walls, shallow front steps, thick sculpted architectural parts. Warm limestone, desaturated navy, muted wine-red, aged gold; playful literary fantasy, beautifully made, real dimensional geometry with visible side walls and roof. Entire freestanding building in view, broad squat silhouette, 3/4 front view looking down 25 degrees. Neutral studio soft lighting and plain light grey background, no ground outside small foundation, no cast shadow outside asset. No text, no people, no props detached from structure, no UI, no chessboard. Matches an elegant magical academic carnival game."
+    },
+    {
+      "name": "courtyard-slate-v1",
+      "prompt": "A seamless tileable material albedo texture for a premium hand-painted fantasy game courtyard floor. Perfect orthographic TOP DOWN view, flat image filling the entire square. Desaturated blue grey slate paving, irregular medium large stone slabs, subtly worn chipped edges, very fine hairline mortar, faint warm stone variation, tiny moss touches in a few joints. Quiet low contrast, readable clean surfaces, stylized painted material richness. NO perspective, NO directional shadows, NO highlights, NO lighting gradient, NO objects, NO border, NO UI, NO text, NO gold ornament, NO regular chess checkerboard. It will be tiled across a real 3D courtyard and its battle floor to unify them. Square image."
+    }
+  ],
+  "tripoRoute": "Website only; user authorized project-needed generation without per-job credit questions.",
+  "models": [
+    {
+      "asset": "observatory",
+      "taskId": "d8f513f7-307b-4938-89c5-21d7c503089d",
+      "model": "H3.1",
+      "credits": 55,
+      "status": "downloaded and integrated",
+      "gameFile": "wanxiang/assets/models/observatory.glb",
+      "bytes": 9848272,
+      "triangles": 154157,
+      "optimization": "glTF Transform 4.5.1 simplify --ratio 0.035 --error 0.004"
+    },
+    {
+      "asset": "storybook-pavilion",
+      "taskId": "db075e81-acc2-47b5-a302-a3a33b824e0a",
+      "model": "H3.1",
+      "credits": 55,
+      "status": "downloaded and integrated",
+      "gameFile": "wanxiang/assets/models/storybook-pavilion.glb",
+      "bytes": 11044864,
+      "triangles": 173966,
+      "optimization": "glTF Transform 4.5.1 simplify --ratio 0.035 --error 0.004"
+    }
+  ],
+  "creditsTotal": 110,
+  "balanceAfter": 2800
+}

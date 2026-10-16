@@ -15,6 +15,8 @@ var board: Control
 var yaw := 0.0
 var zoom_size := 8.8
 var scenery: MeshInstance3D
+var architecture:=Node3D.new()
+var deployment_marks:=Node3D.new()
 var showpiece: Node3D
 var bench_root := Node3D.new()
 var field_view: SubViewport
@@ -29,12 +31,13 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	scene_view.size = Vector2i(1000,700)
 	scene_view.own_world_3d = true
-	scene_view.msaa_3d = Viewport.MSAA_2X
+	scene_view.msaa_3d = Viewport.MSAA_4X
 	scene_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	add_child(scene_view)
 	scene_view.add_child(world)
 	world.add_child(camera)
-	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	camera.projection = Camera3D.PROJECTION_PERSPECTIVE
+	camera.fov=30.0
 	camera.size = zoom_size
 	camera.near = 0.1
 	camera.far = 100
@@ -46,14 +49,14 @@ func _ready() -> void:
 	sky.background_color = Color("101c34")
 	sky.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	sky.ambient_light_color = Color("9cb6d4")
-	sky.ambient_light_energy = 0.72
+	sky.ambient_light_energy = 0.68
 	sky.tonemap_mode = Environment.TONE_MAPPER_LINEAR
 	environment.environment = sky
 	world.add_child(environment)
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-54,-35,0)
 	sun.light_color = Color("ffe4bc")
-	sun.light_energy = 0.62
+	sun.light_energy = 0.85
 	sun.shadow_enabled = true
 	world.add_child(sun)
 	var noise:=FastNoiseLite.new()
@@ -146,92 +149,111 @@ func sign_text(text: String, at: Vector3, parent: Node3D = null, color: Color = 
 	sign.outline_size = 6
 	(world if parent==null else parent).add_child(sign)
 
+func _stone(tint: Color) -> ShaderMaterial:
+	var mat:=ShaderMaterial.new()
+	mat.shader=preload("res://shaders/courtyard_stone.gdshader")
+	mat.set_shader_parameter("stone_texture",ArtLibrary.texture_at("res://assets/courtyard-slate-v1.png"))
+	mat.set_shader_parameter("stone_tint",tint)
+	return mat
+
 func _build_courtyard() -> void:
-	var dark_stone := material(Color("24384a"))
-	var stone := material(Color("58737c"))
-	var brass := material(Color("b39258"),0.65)
-	var wood := material(Color("483a36"))
-	var cream := material(Color("c4b798"))
-	var cyan := material(Color("6ccfd0"),0.3,0.45)
-	var indigo := material(Color("334967"),0.25)
-	_build_scenery()
-	if FileAccess.file_exists("res://assets/models/academic-orrery.glb"):
-		showpiece=load("res://scripts/scenery_model.gd").new()
-		showpiece.position=Vector3(-4.15,-0.12,2.0)
-		showpiece.rotation_degrees.y=22
-		world.add_child(showpiece)
-	box(Vector3(0,-0.13,0),Vector3(6.28,0.20,8.28),wood)
-	box(Vector3(0,-0.23,0),Vector3(6.44,0.10,8.44),brass)
+	var stone:=_stone(Color("899ba1"))
+	var paving:=_stone(Color("9aabad"))
+	var coping:=_stone(Color("c6c3b3"))
+	var brass:=material(Color("9c8255"),0.35)
+	# One physical courtyard: battle tiles and surrounding walks meet at the
+	# same elevation and sample the same world-space stone material.
+	box(Vector3(0,-0.29,0.5),Vector3(14.4,0.90,14.0),stone)
 	for r in 8:
 		for c in 6:
-			var color := Color("344957") if (r+c)%2==0 else Color("304451")
-			if r>=5:
-				color=Color("365d62") if (r+c)%2==0 else Color("32575c")
-			elif r<=2:
-				color=Color("455269") if (r+c)%2==0 else Color("404c62")
-			var slab:=CylinderMesh.new()
-			slab.radial_segments=4
-			slab.top_radius=0.692
-			slab.bottom_radius=0.703
-			slab.height=0.12
-			var tile:=mesh_node(slab,Vector3(c-2.5,0.12,r-3.5),material(color))
-			tile.rotation.y=PI*0.25
+			var tile:=box(Vector3(c-2.5,0.17,r-3.5),Vector3(0.982,0.02,0.982),paving)
 			tiles.append(tile)
-	for x in [-3.08,3.08]:
-		box(Vector3(x,0.19,0),Vector3(0.045,0.08,8.28),brass)
-	for z in [-4.08,4.08]:
-		box(Vector3(0,0.19,z),Vector3(6.20,0.08,0.045),brass)
-	# A quiet seam marks the deployment limit without a glowing UI border.
-	box(Vector3(0,0.187,1.5),Vector3(6.0,0.008,0.018),material(Color("73a2a0"),0.25))
+	# The low perimeter belongs to the island, not to a framed board panel.
+	for side in [-1,1]:
+		for z in range(-6,7):
+			box(Vector3(side*7.05,0.22,z+0.5),Vector3(0.34,0.30,0.97),coping)
+	for x in range(-6,7):
+		box(Vector3(x,0.28,-6.32),Vector3(0.97,0.34,0.36),coping)
+	for step in 3:
+		box(Vector3(0,-0.05-step*0.15,7.18+step*0.25),Vector3(6.3+step*0.55,0.20,0.55),stone)
+	var water_plane:=PlaneMesh.new()
+	water_plane.size=Vector2(180,180)
+	var water_mat:=ShaderMaterial.new()
+	water_mat.shader=preload("res://shaders/courtyard_water.gdshader")
+	mesh_node(water_plane,Vector3(0,-0.82,0),water_mat)
+	world.add_child(architecture)
+	_add_building("observatory",Vector3(-5.1,0.17,-1.55),3.4,12)
+	_add_building("storybook-pavilion",Vector3(5.1,0.17,-2.0),3.4,-12)
+	var court_ring:=TorusMesh.new()
+	court_ring.inner_radius=4.66
+	court_ring.outer_radius=4.68
+	court_ring.rings=128
+	court_ring.ring_segments=6
+	mesh_node(court_ring,Vector3(0,0.16,0),brass)
+	if FileAccess.file_exists("res://assets/models/academic-orrery.glb"):
+		showpiece=load("res://scripts/scenery_model.gd").new()
+		showpiece.position=Vector3(-4.6,0.18,2.6)
+		showpiece.rotation_degrees.y=22
+		world.add_child(showpiece)
+	# Bench sockets are embedded in the same courtyard apron.
 	world.add_child(bench_root)
-	box(Vector3(0,-0.08,5.42),Vector3(7.4,0.22,1.0),dark_stone,bench_root)
-	box(Vector3(0,0.045,5.92),Vector3(7.4,0.04,0.035),brass,bench_root)
 	for index in 9:
-		cylinder(Vector3((index-4)*0.78,0.17,5.35),0.32,0.24,stone,bench_root)
-		cylinder(Vector3((index-4)*0.78,0.30,5.35),0.30,0.035,material(Color("304951")),bench_root)
+		cylinder(Vector3((index-4)*0.78,0.23,5.35),0.33,0.18,coping,bench_root)
 		var rim:=TorusMesh.new()
 		rim.inner_radius=0.30
 		rim.outer_radius=0.32
 		rim.rings=32
 		rim.ring_segments=6
 		mesh_node(rim,Vector3((index-4)*0.78,0.32,5.35),brass,bench_root)
-		sign_text(str(index+1),Vector3((index-4)*0.78,0.38,5.76),bench_root,Color("ddc68c"))
-	sign_text("备 战 席",Vector3(0,-0.05,6.2),bench_root)
-	# Only the board and bench are mesh geometry. The painted environment is
-	# deliberately registered to the fixed gameplay camera, not an orbit backdrop.
+		sign_text(str(index+1),Vector3((index-4)*0.78,0.22,5.78),bench_root,Color("ddc68c"))
+	world.add_child(deployment_marks)
+	for row in range(5,9):
+		for col in range(7):
+			cylinder(Vector3(col-3,0.19,row-4),0.025,0.012,brass,deployment_marks)
+	var inlay:=material(Color("9caa95"),0.15)
+	for row in range(5,8):
+		for col in 6:
+			for corner in [Vector2(-1,-1),Vector2(1,-1),Vector2(-1,1),Vector2(1,1)]:
+				var at:=Vector3(col-2.5+corner.x*0.42,0.188,row-3.5+corner.y*0.42)
+				box(at-Vector3(corner.x*0.045,0,0),Vector3(0.12,0.006,0.016),inlay,deployment_marks)
+				box(at-Vector3(0,0,corner.y*0.045),Vector3(0.016,0.006,0.12),inlay,deployment_marks)
+	for at in [Vector3(-5.6,0.18,4.8),Vector3(5.6,0.18,4.8),Vector3(-2.6,0.18,-5.6),Vector3(2.6,0.18,-5.6)]:
+		_light_post(at,brass,coping)
 	world.add_child(highlights)
-	marker=box(Vector3.ZERO,Vector3(0.95,0.025,0.95),material(Color(0.86,0.93,0.53,0.45),0,0.5),highlights)
+	marker=box(Vector3.ZERO,Vector3(0.96,0.012,0.96),material(Color(0.68,0.84,0.56,0.32),0,0.15),highlights)
 	marker.visible=false
 
-func _build_scenery() -> void:
-	var quad := QuadMesh.new()
-	quad.size=Vector2(16,10.67)
-	var mat := StandardMaterial3D.new()
-	mat.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat.albedo_texture=ArtLibrary.texture_at("res://assets/arena-carnival-v2.png")
-	mat.texture_filter=BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	scenery=mesh_node(quad,Vector3.ZERO,mat)
-	scenery.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	_register_scenery()
+func _add_building(asset: String, at: Vector3, width: float, rotation: float) -> void:
+	if not FileAccess.file_exists("res://assets/models/"+asset+".glb"):return
+	var building:Node3D=load("res://scripts/architecture_model.gd").new()
+	building.asset=asset
+	building.footprint_width=width
+	building.position=at
+	building.rotation_degrees.y=rotation
+	architecture.add_child(building)
 
-func _register_scenery() -> void:
-	if scenery==null:return
-	# Stable camera-space registration across window sizes. Zoom scales both art and board.
-	var aspect:=maxf(1.0,size.x/maxf(1.0,size.y))
-	var height:=maxf(8.8,8.8*aspect/1.5)
-	scenery.mesh.size=Vector2(height*1.5,height)
-	scenery.basis=camera.basis
-	scenery.position=Vector3(0,0,0.5)-camera.basis.z*18
+func _light_post(at: Vector3, brass:Material, stone:Material) -> void:
+	cylinder(at+Vector3(0,0.24,0),0.17,0.48,stone)
+	cylinder(at+Vector3(0,0.80,0),0.035,0.85,brass)
+	var glass:=material(Color("f5c37d"),0,0.7)
+	cylinder(at+Vector3(0,1.28,0),0.12,0.30,glass)
+	cylinder(at+Vector3(0,1.47,0),0.18,0.13,brass,null,0.02)
+	var light:=OmniLight3D.new()
+	light.position=at+Vector3(0,1.25,0)
+	light.light_color=Color("ffd09a")
+	light.light_energy=0.6
+	light.omni_range=3.0
+	world.add_child(light)
 
 func _resize_view() -> void:
 	_set_camera()
-	_register_scenery()
 
 func _set_camera() -> void:
-	var angle := deg_to_rad(yaw)
-	camera.position=Vector3(sin(angle)*18,13,cos(angle)*18)
+	var angle:=deg_to_rad(yaw)
+	var distance_scale:=zoom_size/8.8*(1.0+absf(yaw)/14.0*0.10)
+	camera.position=Vector3(sin(angle)*13.5,10.4,cos(angle)*13.5)*distance_scale
 	camera.look_at(Vector3(0,0,0.5))
-	camera.size=zoom_size
+	camera.fov=30.0
 
 func project(c: float, r: float, height: float = 0.18) -> Vector2:
 	return camera.unproject_position(Vector3(c-2.5,height,r-3.5))
@@ -285,6 +307,7 @@ func update_units(snapshot: Dictionary) -> void:
 	var live := {}
 	bench_units=snapshot.get("ownUnits",[]).filter(func(u):return u.c==null) if snapshot.get("watching")=="you" else []
 	bench_root.visible=snapshot.get("phase")=="prepare" and snapshot.get("watching")=="you"
+	deployment_marks.visible=bench_root.visible
 	var list: Array = snapshot.get("board",{}).get("units",[]).duplicate(true)
 	if bench_root.visible:
 		for i in bench_units.size():

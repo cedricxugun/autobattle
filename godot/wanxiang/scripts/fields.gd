@@ -126,6 +126,22 @@ func _draw() -> void:
 	for e in manager.active:
 		var age:float=manager.clock-float(e.born)
 		var fade:=maxf(0,1-age/float(e.life))
+		if e.type in ["gag_magnet","gag_soda","gag_house","gag_gavel","gag_delivery","gag_romance"]:
+			var caster:Dictionary=manager.unit(str(e.get("sourceUid","")))
+			var recipient:Dictionary=manager.unit(str(e.get("targetUid","")))
+			if not caster.is_empty() and not recipient.is_empty() and recipient.get("alive",true):
+				var start:=board.projection(float(caster.x),float(caster.y))
+				var end:=board.projection(float(recipient.x),float(recipient.y))
+				var friendly:bool=int(caster.team)==int(recipient.team)
+				var warning:=Color("7cd8af") if friendly else Color("efaa7c")
+				var radius:float=1.5 if e.type=="gag_soda" else (1.8 if int(e.get("variant",0))==2 else 1.2) if e.type=="gag_house" else 0.66
+				var progress:=clampf(age/maxf(0.01,float(e.life)),0,1)
+				line(PackedVector2Array([start,end]),warning,0.32,1.6)
+				draw_arc(end,radius*cell,0,TAU,64,Color(warning,0.65),2.4,true)
+				draw_arc(end,radius*cell*0.96,-PI*0.5,-PI*0.5+TAU*progress,64,Color(warning,0.95),3.8,true)
+				var tip:=start.lerp(end,0.65)
+				var direction:Vector2=(end-start).normalized()
+				line(PackedVector2Array([tip-direction.rotated(0.5)*10,tip,tip-direction.rotated(-0.5)*10]),warning,0.8,2.2)
 		if e.type == "gag_romance":
 			for uid in [e.get("anchorUid",""),e.get("targetUid","")]:
 				var actor: Dictionary = manager.unit(str(uid))

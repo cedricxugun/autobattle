@@ -41,6 +41,6 @@ func _draw() -> void:
 			var status:=" ".join(tags)
 			draw_string_outline(font,point+Vector2(26,4),status,HORIZONTAL_ALIGNMENT_LEFT,-1,10,3,Color("0b1721"))
 			draw_string(font,point+Vector2(26,4),status,HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color("efd99f"))
-		if actor.body.action_label.text!="":
+		if actor.body.action_label.text!="" and (u.get("casting",false) or str(u.uid)==board.selected_uid or board.stage.actors.size()<=8):
 			draw_string_outline(font,point+Vector2(-35,-20),actor.body.action_label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,10,3,Color("111e28"))
 			draw_string(font,point+Vector2(-35,-20),actor.body.action_label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color("f0dfac"))
